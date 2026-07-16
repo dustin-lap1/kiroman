@@ -94,7 +94,7 @@ the design are exercised as the engine is built.
   - [x] 10.2 Build and deploy the frontend via `deploy.ps1` (S3 sync + CloudFront invalidation) and verify end to end on desktop and mobile (play, pause/resume, level up, leaderboard refresh on load)
     - _Requirements: 6.1, 6.2, 6.3, 8.1_
 
-- [~] 11. Repository finalization (challenge compliance)
+- [x] 11. Repository finalization (challenge compliance)
   - Confirm the Kiro-generated spec (`.kiro/specs/kiroman/`) remained unmodified from the first commit made in Task 1 through implementation
   - Add a project README documenting local dev, the deploy flow (`deploy.ps1`), and the live CloudFront URL, then push the finished build to `dustin-lap1/kiroman`
   - _Requirements: 8.6_
