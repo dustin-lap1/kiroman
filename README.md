@@ -6,6 +6,8 @@ Plays on web and mobile, deployed to AWS as a serverless app.
 
 **Live:** https://d1e7yvdrsmkg9p.cloudfront.net
 
+![Kiroman gameplay — the Welcome to Kiroman banner, global leaderboard, and maze](docs/kiroman-screenshot.png)
+
 Built for **Day 4 of Kiro Birthday Week** — "build one app with one sentence."
 The entire app started from a single declarative sentence that Kiro's spec mode
 expanded into the requirements, design, and task list under
