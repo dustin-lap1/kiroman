@@ -24,6 +24,7 @@ import { API_BASE } from '../config.js';
  * @typedef {Object} Entry
  * @property {string} alias      Player alias.
  * @property {number} level      Highest level reached.
+ * @property {number} score      Score from the run that reached that level.
  * @property {number} achievedAt Epoch ms when this best level was set.
  */
 
@@ -37,11 +38,12 @@ import { API_BASE } from '../config.js';
  */
 function normalizeEntry(raw) {
   if (!raw || typeof raw !== 'object') return null;
-  const { alias, level, achievedAt } = /** @type {Record<string, unknown>} */ (raw);
+  const { alias, level, score, achievedAt } = /** @type {Record<string, unknown>} */ (raw);
   if (typeof alias !== 'string' || alias.length === 0) return null;
   if (typeof level !== 'number' || !Number.isFinite(level)) return null;
+  const sc = typeof score === 'number' && Number.isFinite(score) ? score : 0;
   const at = typeof achievedAt === 'number' && Number.isFinite(achievedAt) ? achievedAt : 0;
-  return { alias, level, achievedAt: at };
+  return { alias, level, score: sc, achievedAt: at };
 }
 
 /**
@@ -83,15 +85,16 @@ export async function getLeaderboard(options = {}) {
  * @param {string} alias - the player's alias (validated client-side; the server
  *   re-validates).
  * @param {number} level - the highest level reached this session.
+ * @param {number} score - the score for that run.
  * @param {{ signal?: AbortSignal }} [options] - optional fetch options.
  * @returns {Promise<{ ok: boolean, updated?: boolean }>}
  */
-export async function submitScore(alias, level, options = {}) {
+export async function submitScore(alias, level, score, options = {}) {
   try {
     const res = await fetch(`${API_BASE}/scores`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ alias, level }),
+      body: JSON.stringify({ alias, level, score }),
       signal: options.signal,
     });
     if (!res.ok) return { ok: false };

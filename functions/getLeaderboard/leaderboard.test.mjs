@@ -15,7 +15,7 @@ import assert from 'node:assert/strict';
 
 import { topEntries, DEFAULT_TOP_N } from './leaderboard.mjs';
 
-const mk = (alias, level, achievedAt) => ({ alias, level, achievedAt });
+const mk = (alias, level, achievedAt, score = 0) => ({ alias, level, achievedAt, score });
 
 test('sorts by level descending (Requirement 5.1)', () => {
   const items = [mk('a', 3, 100), mk('b', 7, 100), mk('c', 5, 100)];
@@ -109,11 +109,17 @@ test('ordering is deterministic regardless of input order (stable)', () => {
   );
 });
 
-test('maps each result to exactly { alias, level, achievedAt } (Requirement 5.2)', () => {
-  const items = [{ pk: 'LEADERBOARD', alias: 'z', level: 4, achievedAt: 42, extra: 'drop-me' }];
+test('maps each result to exactly { alias, level, score, achievedAt } (Requirement 5.2)', () => {
+  const items = [{ pk: 'LEADERBOARD', alias: 'z', level: 4, score: 1450, achievedAt: 42, extra: 'drop-me' }];
   const [entry] = topEntries(items);
-  assert.deepEqual(Object.keys(entry).sort(), ['achievedAt', 'alias', 'level']);
-  assert.deepEqual(entry, { alias: 'z', level: 4, achievedAt: 42 });
+  assert.deepEqual(Object.keys(entry).sort(), ['achievedAt', 'alias', 'level', 'score']);
+  assert.deepEqual(entry, { alias: 'z', level: 4, score: 1450, achievedAt: 42 });
+});
+
+test('defaults a missing score to 0 (entries written before scores were tracked)', () => {
+  const items = [{ alias: 'legacy', level: 3, achievedAt: 10 }];
+  const [entry] = topEntries(items);
+  assert.deepEqual(entry, { alias: 'legacy', level: 3, score: 0, achievedAt: 10 });
 });
 
 test('does not mutate the input array', () => {
@@ -137,5 +143,5 @@ test('coerces malformed numeric fields to safe defaults without throwing', () =>
   assert.equal(result[0].alias, 'good');
   // The item missing level/achievedAt sorts last with zeroed numeric fields.
   const bad = result.find((e) => e.alias === 'bad');
-  assert.deepEqual(bad, { alias: 'bad', level: 0, achievedAt: 0 });
+  assert.deepEqual(bad, { alias: 'bad', level: 0, score: 0, achievedAt: 0 });
 });

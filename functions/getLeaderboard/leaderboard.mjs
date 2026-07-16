@@ -48,12 +48,14 @@ function compareEntries(a, b) {
 
 /**
  * Project a raw DynamoDB item onto the public leaderboard entry shape.
- * Only alias, level, and achievedAt are exposed (Requirement 5.2).
+ * Exposes alias, level, score, and achievedAt (Requirement 5.2). A missing
+ * `score` (e.g. an entry written before scores were tracked) defaults to 0.
  */
 function toEntry(item) {
   return {
     alias: String(item?.alias ?? ''),
     level: Number(item?.level) || 0,
+    score: Number(item?.score) || 0,
     achievedAt: Number(item?.achievedAt) || 0,
   };
 }

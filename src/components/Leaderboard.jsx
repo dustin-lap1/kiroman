@@ -89,7 +89,7 @@ function Leaderboard({ refreshKey = 0, className = '' }) {
           Top players
         </h2>
         <span className="text-[0.7rem] font-semibold uppercase tracking-wide text-violet-300/50">
-          Highest level
+          Level · Score
         </span>
       </div>
 
@@ -123,9 +123,15 @@ function Leaderboard({ refreshKey = 0, className = '' }) {
                   <span className="min-w-0 flex-1 truncate font-semibold text-white">
                     {entry.alias}
                   </span>
-                  <span className="flex-none tabular-nums text-sm font-bold text-fuchsia-300">
-                    <span className="sr-only">level </span>
-                    {entry.level}
+                  <span className="flex-none text-right leading-tight">
+                    <span className="block text-sm font-bold text-fuchsia-300 tabular-nums">
+                      <span className="sr-only">level </span>
+                      Lv {entry.level}
+                    </span>
+                    <span className="block text-xs font-medium text-violet-200/70 tabular-nums">
+                      <span className="sr-only">score </span>
+                      {(entry.score ?? 0).toLocaleString()} pts
+                    </span>
                   </span>
                 </li>
               );

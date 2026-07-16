@@ -51,8 +51,8 @@ afterEach(() => {
 
 test('getLeaderboard returns entries on 200 with { entries: [...] } (R5.1)', async () => {
   const entries = [
-    { alias: 'ADA', level: 7, achievedAt: 1000 },
-    { alias: 'GRACE', level: 5, achievedAt: 2000 },
+    { alias: 'ADA', level: 7, score: 1450, achievedAt: 1000 },
+    { alias: 'GRACE', level: 5, score: 900, achievedAt: 2000 },
   ];
   let calledUrl;
   let calledInit;
@@ -73,10 +73,10 @@ test('getLeaderboard drops malformed entries but keeps valid ones', async () => 
   mockFetch(async () =>
     jsonResponse({
       entries: [
-        { alias: 'ADA', level: 7, achievedAt: 1000 },
+        { alias: 'ADA', level: 7, score: 1450, achievedAt: 1000 },
         { alias: '', level: 3, achievedAt: 500 }, // empty alias -> dropped
         { alias: 'BAD', level: 'x' }, // non-numeric level -> dropped
-        { alias: 'EVE', level: 2 }, // missing achievedAt -> defaulted to 0
+        { alias: 'EVE', level: 2 }, // missing score/achievedAt -> defaulted to 0
         null,
       ],
     }),
@@ -85,8 +85,8 @@ test('getLeaderboard drops malformed entries but keeps valid ones', async () => 
   const result = await getLeaderboard();
 
   assert.deepEqual(result, [
-    { alias: 'ADA', level: 7, achievedAt: 1000 },
-    { alias: 'EVE', level: 2, achievedAt: 0 },
+    { alias: 'ADA', level: 7, score: 1450, achievedAt: 1000 },
+    { alias: 'EVE', level: 2, score: 0, achievedAt: 0 },
   ]);
 });
 
@@ -137,12 +137,12 @@ test('submitScore posts correct URL/method/headers/body and returns { ok, update
     return jsonResponse({ ok: true, updated: true });
   });
 
-  const result = await submitScore('ADA', 9);
+  const result = await submitScore('ADA', 9, 1450);
 
   assert.equal(calledUrl, '/scores');
   assert.equal(calledInit.method, 'POST');
   assert.equal(calledInit.headers['Content-Type'], 'application/json');
-  assert.deepEqual(JSON.parse(calledInit.body), { alias: 'ADA', level: 9 });
+  assert.deepEqual(JSON.parse(calledInit.body), { alias: 'ADA', level: 9, score: 1450 });
   assert.deepEqual(result, { ok: true, updated: true });
 });
 

@@ -31,16 +31,20 @@ export const ALIAS_MAX_LENGTH = 12;
 /** Minimum allowed level (Requirement 5.3: positive integer). */
 export const MIN_LEVEL = 1;
 
+/** Minimum allowed score (a non-negative integer). */
+export const MIN_SCORE = 0;
+
 /** Human-readable validation messages returned in 400 responses. */
 export const SUBMISSION_ERRORS = {
   badJson: 'Request body must be valid JSON.',
   notObject: 'Request body must be a JSON object.',
   alias: `Alias must be a string of ${ALIAS_MIN_LENGTH}\u2013${ALIAS_MAX_LENGTH} characters after trimming.`,
   level: `Level must be an integer of at least ${MIN_LEVEL}.`,
+  score: `Score must be an integer of at least ${MIN_SCORE}.`,
 };
 
 /**
- * @typedef {{ ok: true, alias: string, level: number }} SubmissionOk
+ * @typedef {{ ok: true, alias: string, level: number, score: number }} SubmissionOk
  * @typedef {{ ok: false, error: string }} SubmissionError
  * @typedef {SubmissionOk | SubmissionError} SubmissionResult
  */
@@ -76,7 +80,7 @@ export function parseSubmission(rawBody) {
     return { ok: false, error: SUBMISSION_ERRORS.notObject };
   }
 
-  const { alias: rawAlias, level: rawLevel } = payload;
+  const { alias: rawAlias, level: rawLevel, score: rawScore } = payload;
 
   // Alias: must be a string that trims to 1..12 chars (mirrors src/game/alias.js).
   if (typeof rawAlias !== 'string') {
@@ -97,5 +101,14 @@ export function parseSubmission(rawBody) {
     return { ok: false, error: SUBMISSION_ERRORS.level };
   }
 
-  return { ok: true, alias, level: rawLevel };
+  // Score: STRICT non-negative integer (same no-coercion policy as level).
+  if (
+    typeof rawScore !== 'number' ||
+    !Number.isInteger(rawScore) ||
+    rawScore < MIN_SCORE
+  ) {
+    return { ok: false, error: SUBMISSION_ERRORS.score };
+  }
+
+  return { ok: true, alias, level: rawLevel, score: rawScore };
 }

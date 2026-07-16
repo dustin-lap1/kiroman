@@ -191,6 +191,7 @@ function App() {
 
     const snapshot = summaryRef.current;
     const level = snapshot?.highestLevel ?? snapshot?.level ?? 1;
+    const score = snapshot?.score ?? 0;
     const playerAlias = aliasRef.current;
 
     // Don't attempt a submit without a usable alias (defensive; the alias gate
@@ -201,7 +202,7 @@ function App() {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    submitScore(playerAlias, level).then((result) => {
+    submitScore(playerAlias, level, score).then((result) => {
       if (cancelled) return;
       setIsSubmitting(false);
       if (result?.ok) {

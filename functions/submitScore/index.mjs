@@ -70,20 +70,25 @@ function response(statusCode, body) {
  *
  * @param {string} alias - validated, trimmed alias.
  * @param {number} level - validated positive integer level.
+ * @param {number} score - validated non-negative integer score for this run.
  * @returns {Promise<boolean>} true if the entry was written (new best), false
  *   if the existing entry was already >= level (condition failed).
  */
-async function upsertBest(alias, level) {
+async function upsertBest(alias, level, score) {
   const achievedAt = Date.now();
   try {
     await doc.send(
       new UpdateCommand({
         TableName: TABLE_NAME,
         Key: { pk: PARTITION_KEY, alias },
-        UpdateExpression: 'SET #level = :level, achievedAt = :achievedAt',
+        UpdateExpression: 'SET #level = :level, #score = :score, achievedAt = :achievedAt',
         ConditionExpression: 'attribute_not_exists(pk) OR :level > #level',
-        ExpressionAttributeNames: { '#level': 'level' },
-        ExpressionAttributeValues: { ':level': level, ':achievedAt': achievedAt },
+        ExpressionAttributeNames: { '#level': 'level', '#score': 'score' },
+        ExpressionAttributeValues: {
+          ':level': level,
+          ':score': score,
+          ':achievedAt': achievedAt,
+        },
       }),
     );
     return true;
@@ -110,7 +115,7 @@ export async function handler(event) {
       return response(400, { error: parsed.error });
     }
 
-    const updated = await upsertBest(parsed.alias, parsed.level);
+    const updated = await upsertBest(parsed.alias, parsed.level, parsed.score);
     return response(200, { ok: true, updated });
   } catch (err) {
     console.error('submitScore failed:', err);
