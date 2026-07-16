@@ -13,11 +13,11 @@ the design are exercised as the engine is built.
 - [ ] 1. Create the repo and scaffold via the LaunchPad bootstrap (reuse AccountRef account)
   - [x] 1.1 Confirm the Kiro-generated spec is present at `C:\Dev\kiroman\.kiro\specs\kiroman\` and leave it unmodified (it must land in the repo's first commit)
     - _Requirements: 8.6_
-  - [-] 1.2 Run `C:\Dev\bootstrap\New-Project.ps1` with `-SkipAwsAccount` (enter the AccountRef account `468895763486`), `-SkipGitHub` (the target folder already exists with the spec), and `-SkipTerraform` (defer infra to the gated apply in Task 10), producing the React 19 + Vite + Tailwind scaffold, a dedicated `kiroman-terraform` IAM user/profile in the AccountRef account, `deploy.ps1`, and `.kiro/steering` docs — its local initial commit will include the untouched spec (no infra applied, no deploy yet)
+  - [x] 1.2 Run `C:\Dev\bootstrap\New-Project.ps1` with `-SkipAwsAccount` (enter the AccountRef account `468895763486`), `-SkipGitHub` (the target folder already exists with the spec), and `-SkipTerraform` (defer infra to the gated apply in Task 10), producing the React 19 + Vite + Tailwind scaffold, a dedicated `kiroman-terraform` IAM user/profile in the AccountRef account, `deploy.ps1`, and `.kiro/steering` docs — its local initial commit will include the untouched spec (no infra applied, no deploy yet)
     - _Requirements: 7.2, 8.4, 8.6_
-  - [~] 1.3 Scaffold the `infra/bootstrap` + `infra/main` Terraform from the bootstrap templates for the `kiroman-terraform` profile and `kiroman-` resource names (files only — do not apply here)
+  - [x] 1.3 Scaffold the `infra/bootstrap` + `infra/main` Terraform from the bootstrap templates for the `kiroman-terraform` profile and `kiroman-` resource names (files only — do not apply here)
     - _Requirements: 8.1, 8.4_
-  - [~] 1.4 Create the public GitHub repo `dustin-lap1/kiroman` from the local folder and push (`gh repo create dustin-lap1/kiroman --public --source . --remote origin --push`), so the repository's first commit contains the Kiro-generated spec unmodified
+  - [-] 1.4 Create the public GitHub repo `dustin-lap1/kiroman` from the local folder and push (`gh repo create dustin-lap1/kiroman --public --source . --remote origin --push`), so the repository's first commit contains the Kiro-generated spec unmodified
     - _Requirements: 8.6_
   - [~] 1.5 Verify `npm install` and `npm run dev` run the "Welcome to Kiroman!" scaffold locally
     - _Requirements: 7.2, 8.1_
