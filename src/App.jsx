@@ -218,9 +218,9 @@ function App() {
   }, [status, gameKey]);
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {screen === 'alias' ? (
-        <main className="min-h-screen">
+        <main className="flex-1">
           {/* The leaderboard is global, so show it up top even before play so
               players see who they're chasing (Requirements 5.1, 5.2). */}
           <div className="mx-auto w-full max-w-sm px-6 pt-6">
@@ -229,7 +229,7 @@ function App() {
           <AliasGate onSubmit={handleAliasSubmit} initialAlias={alias} />
         </main>
       ) : (
-        <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col items-center gap-4 px-4 py-6">
+        <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center gap-4 px-4 py-6">
           {/* Welcome header (Requirement 7.2): a clear, playful, on-brand
               banner above the board. Uses the shared Kiro palette tokens
               (kiro-man/kiro-accent) that mirror the canvas colors so the DOM
@@ -245,6 +245,12 @@ function App() {
 
           {/* Global top-three leaderboard, up top (Requirements 5.1, 5.2). */}
           <Leaderboard refreshKey={leaderboardRefresh} />
+
+          {/* Pause hint (Requirement 4.1/4.2): tell the player how to pause on
+              either modality. */}
+          <p className="-mt-2 text-center text-xs font-medium text-violet-200/70">
+            Hit <kbd className="rounded bg-slate-800/80 px-1.5 py-0.5 font-semibold text-violet-100">Space</kbd> or tap the screen to pause the game.
+          </p>
 
           {/* HUD: alias + score / level / lives (Requirement 3.4). */}
           <section
@@ -276,8 +282,16 @@ function App() {
             </span>
           </section>
 
-          {/* The board + in-game overlays. */}
-          <section className="relative w-full">
+          {/* The board + in-game overlays. A touch tap anywhere on the board
+              toggles pause (Requirement 4.2), matching the "tap the screen to
+              pause" hint; mouse clicks are ignored so desktop stays keyboard-
+              driven (Space). */}
+          <section
+            className="relative w-full"
+            onPointerDown={(e) => {
+              if (e.pointerType === 'touch') touch.pressPause();
+            }}
+          >
             <GameCanvas
               getIntent={getIntent}
               onStateChange={handleStateChange}
@@ -313,6 +327,28 @@ function App() {
           />
         </main>
       )}
+
+      {/* Attribution footer — shown on every screen. */}
+      <footer className="w-full px-4 py-5 text-center text-xs text-violet-200/60">
+        Built with{' '}
+        <a
+          href="https://kiro.dev"
+          target="_blank"
+          rel="noreferrer"
+          className="font-semibold text-kiro-accent underline-offset-2 hover:text-kiro-man hover:underline"
+        >
+          Kiro
+        </a>{' '}
+        by{' '}
+        <a
+          href="https://www.linkedin.com/in/ellisdustin/"
+          target="_blank"
+          rel="noreferrer"
+          className="font-semibold text-kiro-accent underline-offset-2 hover:text-kiro-man hover:underline"
+        >
+          Dustin Ellis, Kiro Ambassador
+        </a>
+      </footer>
     </div>
   );
 }

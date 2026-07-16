@@ -88,6 +88,21 @@ never clobber live function code.
 - **API:** `https://1k4cvisa8j.execute-api.us-east-1.amazonaws.com` (`GET /leaderboard`, `POST /scores`)
 - **DynamoDB:** `kiroman-leaderboard`
 
+## The most interesting caveat: the foundation that came before the prompt
+
+Perhaps the most interesting caveat to this build is what already existed in my
+Kiro workspace *before* I wrote the prompt: **deployment guidance**. Having
+steering documents in a multi-root workspace is enormously valuable —
+particularly guidance on how to mint new GitHub repos and how to manage and
+deploy infrastructure in cloud accounts. Once that guidance is in place, it
+becomes an instrumental foundation layer for every subsequent project. It also
+lets Kiro take a single-shot prompt for a new idea and turn it into a working app
+quickly, without stopping to ask a lot of questions (which consumes both time and
+credits/tokens). Once you have a repeatable system in place, launching your next
+idea is much easier, and the architectural patterns stay consistent whether it's
+your 10th project or your 100th. Building Kiroman took about **2 hours** —
+without those foundations it would likely have taken many more.
+
 ---
 
-Built with [Kiro](https://kiro.dev). © 2026 Lap 1 Labs, Inc.
+Built with [Kiro](https://kiro.dev) by [Dustin Ellis, Kiro Ambassador](https://www.linkedin.com/in/ellisdustin/). © 2026 Lap 1 Labs, Inc.
