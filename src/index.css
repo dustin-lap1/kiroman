@@ -1,1 +1,108 @@
 @import "tailwindcss";
+
+/*
+ * Kiro brand palette — the CSS twin of the JS tokens in `src/brand.js`
+ * (Requirement 7.1: one consistent palette across DOM and canvas).
+ *
+ * Tailwind v4 is configured CSS-first: these `--color-kiro-*` custom properties
+ * under `@theme` generate utility classes (`bg-kiro-bg`, `text-kiro-pellet`,
+ * `from-kiro-man`, `border-kiro-wall`, ...) that the React DOM can use, while
+ * the canvas renderer imports the same hexes from `src/brand.js`. CSS cannot
+ * import JS at build time, so keep these values in lockstep with `BRAND` in
+ * `src/brand.js`. They are also exactly Tailwind's violet and fuchsia ramp, so
+ * the existing violet and fuchsia utility classes throughout the app already
+ * render the same Kiro colors.
+ */
+@theme {
+  --color-kiro-bg: #150e29; /* BRAND.background — deep Kiro night */
+  --color-kiro-wall: #8b5cf6; /* BRAND.wall — Kiro violet accent (violet-500) */
+  --color-kiro-wall-inner: #6d28d9; /* BRAND.wallInner — deeper violet (violet-700) */
+  --color-kiro-pellet: #f5f3ff; /* BRAND.pellet — near-white (violet-50) */
+  --color-kiro-man: #a855f7; /* BRAND.kiroman — bright Kiro purple (purple-500) */
+  --color-kiro-chaser: #c084fc; /* BRAND.chaser — fallback chaser (purple-400) */
+  --color-kiro-accent: #f0abfc; /* BRAND.chaserAccent — playful detail (fuchsia-300) */
+}
+
+/* ---------------------------------------------------------------------------
+ * Playful animations (Requirement 7.4)
+ *
+ * Decorative, non-essential motion for a cute arcade feel. EVERY animation
+ * defined here is disabled under `prefers-reduced-motion: reduce` via the media
+ * query at the end of this block, so motion-sensitive players get a static,
+ * fully-functional UI. Core gameplay feedback (Kiroman's chomp / the chaser
+ * bob) is drawn on the canvas by the renderer, not here.
+ * ------------------------------------------------------------------------- */
+
+/* Slow gradient shimmer across the "Welcome to Kiroman!" title. Relies on the
+ * gradient set by Tailwind's `bg-gradient-to-r` + `bg-clip-text`; we only widen
+ * the background and pan it. */
+@keyframes kiro-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.kiro-shimmer {
+  background-size: 200% auto;
+  animation: kiro-shimmer 6s ease-in-out infinite;
+}
+
+/* Gentle vertical bob for playful accents. */
+@keyframes kiro-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.kiro-float {
+  animation: kiro-float 4s ease-in-out infinite;
+}
+
+/* Leaderboard rows fade + slide in on load (staggered via inline delay). */
+@keyframes kiro-row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.kiro-row-enter {
+  animation: kiro-row-enter 0.4s ease-out both;
+}
+
+/* A quick celebratory "pop" on the HUD level number when the player levels up. */
+@keyframes kiro-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.4);
+    color: var(--color-kiro-accent);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.kiro-pop {
+  display: inline-block;
+  animation: kiro-pop 0.5s ease-out;
+}
+
+/* Respect the user's motion preference: turn off all decorative motion. */
+@media (prefers-reduced-motion: reduce) {
+  .kiro-shimmer,
+  .kiro-float,
+  .kiro-row-enter,
+  .kiro-pop {
+    animation: none !important;
+  }
+}

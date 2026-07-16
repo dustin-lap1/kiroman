@@ -27,7 +27,7 @@
 
 ## Organization Constraints (SCPs)
 
-This account is part of the Lap 1 Labs AWS Organization (o-x2e8f9zdk4) with enforced SCPs:
+This account is part of the Lap 1 Labs AWS Organization with enforced SCPs:
 
 1. Region Lock: All resources must be in us-east-1 (global services excepted)
 2. Serverless Only: Only approved services allowed (Lambda, DynamoDB, S3, API Gateway, Cognito, Bedrock, SES, SQS, SNS, EventBridge, CloudFront, Route 53, etc.)

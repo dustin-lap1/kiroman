@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 
 # Configuration
 $BUCKET_NAME = "kiroman-site"
-$DISTRIBUTION_ID = "DISTRIBUTION_ID_HERE"
+$DISTRIBUTION_ID = "E2GL4ALL4UNORO"
 $AWS_PROFILE = "kiroman-terraform"
 $AWS_REGION = "us-east-1"
 
