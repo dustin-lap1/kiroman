@@ -11,14 +11,15 @@
 //
 // Best-per-alias (Requirements 5.4, 5.5): each alias is one item keyed by
 // (pk="LEADERBOARD", alias). A conditional UpdateCommand writes the new level +
-// achievedAt ONLY IF the item does not exist OR the new level is strictly
-// greater than the stored level. When the condition fails, the existing entry
-// was already >= the new level, so we leave it unchanged and report
-// updated:false (still a 200 success).
+// score + achievedAt ONLY IF the item does not exist OR the new result is
+// strictly better than the stored one — a higher level, or the same level with
+// a higher score (matching how the leaderboard ranks). When the condition
+// fails, the existing entry was already >= this result, so we leave it
+// unchanged and report updated:false (still a 200 success).
 //
 // achievedAt is stamped server-side (Date.now()) at write time and is only
-// updated when the level actually improves, so it reflects when the player's
-// best level was set — the tiebreaker the leaderboard sorts on.
+// updated when the stored best actually improves, so it reflects when the
+// player's best result was set — the final tiebreaker the leaderboard sorts on.
 //
 // Requirements:
 //   5.3 - re-validate alias length and positive-integer level; 400 on bad input.
@@ -63,16 +64,18 @@ function response(statusCode, body) {
 }
 
 /**
- * Conditionally upsert the best level for an alias.
+ * Conditionally upsert the best result for an alias.
  *
- * Writes level + achievedAt only IF the item does not exist OR the new level is
- * strictly greater than the stored level. Returns whether a write happened.
+ * Writes level + score + achievedAt only IF the item does not exist OR the new
+ * result is strictly better than the stored one, where "better" matches the
+ * leaderboard ranking: a higher level, or the same level with a higher score.
+ * Returns whether a write happened.
  *
  * @param {string} alias - validated, trimmed alias.
  * @param {number} level - validated positive integer level.
  * @param {number} score - validated non-negative integer score for this run.
  * @returns {Promise<boolean>} true if the entry was written (new best), false
- *   if the existing entry was already >= level (condition failed).
+ *   if the existing entry was already >= this result (condition failed).
  */
 async function upsertBest(alias, level, score) {
   const achievedAt = Date.now();
@@ -82,7 +85,8 @@ async function upsertBest(alias, level, score) {
         TableName: TABLE_NAME,
         Key: { pk: PARTITION_KEY, alias },
         UpdateExpression: 'SET #level = :level, #score = :score, achievedAt = :achievedAt',
-        ConditionExpression: 'attribute_not_exists(pk) OR :level > #level',
+        ConditionExpression:
+          'attribute_not_exists(pk) OR :level > #level OR (:level = #level AND :score > #score)',
         ExpressionAttributeNames: { '#level': 'level', '#score': 'score' },
         ExpressionAttributeValues: {
           ':level': level,

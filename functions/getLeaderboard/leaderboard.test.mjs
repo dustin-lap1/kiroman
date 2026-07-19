@@ -7,8 +7,9 @@
 // Requirements:
 //   5.1 - return the top three entries by highest level reached.
 //   5.2 - each entry exposes alias and highest level reached.
-//   5.6 - equal levels ordered earliest-achieved first.
-// Design Property 9: sorted by level desc, then achievedAt asc, at most three.
+//   5.6 - equal levels ordered by higher score first, then earliest-achieved.
+// Design Property 9: sorted by level desc, then score desc, then achievedAt asc,
+// at most three.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -26,12 +27,36 @@ test('sorts by level descending (Requirement 5.1)', () => {
   );
 });
 
-test('breaks ties on equal level by earliest achievedAt (Requirements 5.6)', () => {
-  const items = [mk('late', 5, 300), mk('early', 5, 100), mk('mid', 5, 200)];
+test('breaks ties on equal level by higher score first (Requirement 5.6)', () => {
+  // Same level, different scores: the higher score ranks first regardless of
+  // when it was achieved. This is the reported Victor-vs-Kiro case.
+  const items = [mk('kiro', 4, 100, 6860), mk('victor', 4, 200, 6880)];
+  const result = topEntries(items);
+  assert.deepEqual(
+    result.map((e) => e.alias),
+    ['victor', 'kiro'],
+  );
+});
+
+test('breaks ties on equal level and equal score by earliest achievedAt (Requirement 5.6)', () => {
+  const items = [
+    mk('late', 5, 300, 1000),
+    mk('early', 5, 100, 1000),
+    mk('mid', 5, 200, 1000),
+  ];
   const result = topEntries(items);
   assert.deepEqual(
     result.map((e) => e.alias),
     ['early', 'mid', 'late'],
+  );
+});
+
+test('level dominates score (a higher level with a lower score still wins)', () => {
+  const items = [mk('grinder', 3, 100, 99999), mk('climber', 5, 100, 100)];
+  const result = topEntries(items);
+  assert.deepEqual(
+    result.map((e) => e.alias),
+    ['climber', 'grinder'],
   );
 });
 

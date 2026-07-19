@@ -10,8 +10,9 @@
 // Requirements:
 //   5.1 - return the top three entries by highest level reached.
 //   5.2 - each entry exposes the player alias and highest level reached.
-//   5.6 - equal levels are ordered earliest-achieved first.
-// Design Property 9: entries sorted by level desc, then achievedAt asc, at most 3.
+//   5.6 - equal levels are ordered by higher score first, then earliest-achieved.
+// Design Property 9: entries sorted by level desc, then score desc, then
+// achievedAt asc, at most 3.
 
 /**
  * Default number of leaderboard entries to return.
@@ -23,17 +24,25 @@ export const DEFAULT_TOP_N = 3;
  *
  * Ordering (Requirements 5.1, 5.6 / Design Property 9):
  *   1. higher `level` first (descending)
- *   2. earlier `achievedAt` first (ascending) as the tiebreaker
- *   3. `alias` ascending as a final, deterministic tiebreaker so the result
+ *   2. higher `score` first (descending) as the tiebreaker within a level, so
+ *      two players who reached the same level are ranked by how many points
+ *      they earned getting there.
+ *   3. earlier `achievedAt` first (ascending) when level and score both tie.
+ *   4. `alias` ascending as a final, deterministic tiebreaker so the result
  *      is stable regardless of the order items arrive from DynamoDB.
  *
  * Missing/invalid numeric fields are coerced to safe defaults (level 0,
- * achievedAt 0) so a malformed item can never throw or reorder unpredictably.
+ * score 0, achievedAt 0) so a malformed item can never throw or reorder
+ * unpredictably.
  */
 function compareEntries(a, b) {
   const levelA = Number(a?.level) || 0;
   const levelB = Number(b?.level) || 0;
   if (levelA !== levelB) return levelB - levelA; // level desc
+
+  const scoreA = Number(a?.score) || 0;
+  const scoreB = Number(b?.score) || 0;
+  if (scoreA !== scoreB) return scoreB - scoreA; // score desc
 
   const atA = Number(a?.achievedAt) || 0;
   const atB = Number(b?.achievedAt) || 0;
