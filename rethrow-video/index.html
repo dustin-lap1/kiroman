@@ -1,0 +1,611 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=block" rel="stylesheet">
+<script src="v3/timeline.js"></script>
+<style>
+:root{--navy:#0B1220;--panel:#0F1A33;--deep:#0A192F;--blue:#2563FF;--violet:#A855F7;--sky:#38BDF8;--mist:#F3F6FB;--slate:#94A3BB;--line:rgba(56,120,255,.35);--amber:#F5A524;--red:#F04438;--green:#22C55E}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy);font-family:'Plus Jakarta Sans',sans-serif;color:var(--mist)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+#bg{position:absolute;inset:0}
+#grid{position:absolute;inset:-40px;background-image:radial-gradient(rgba(148,163,187,.16) 1.2px,transparent 1.3px);background-size:32px 32px}
+.glow{position:absolute;border-radius:50%;filter:blur(120px);opacity:.35}
+.scene{position:absolute;inset:0;display:none}
+.abs{position:absolute}
+.center{position:absolute;left:0;right:0;text-align:center}
+.h1{font-weight:800;font-size:96px;letter-spacing:-3px;line-height:1.05}
+.h2{font-weight:800;font-size:64px;letter-spacing:-2px;line-height:1.1}
+.h3{font-weight:700;font-size:40px;letter-spacing:-.5px}
+.sub{font-weight:500;font-size:32px;color:var(--slate)}
+.eyebrow{font-weight:700;font-size:22px;letter-spacing:6px;color:#8FA8E8;text-transform:uppercase}
+.blue{color:var(--blue)} .grad{background:linear-gradient(90deg,#2563FF,#A855F7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card{background:linear-gradient(180deg,rgba(20,34,68,.92),rgba(12,22,46,.92));border:1.5px solid rgba(64,110,230,.45);border-radius:22px;box-shadow:0 0 40px rgba(37,99,255,.12),inset 0 1px 0 rgba(255,255,255,.04)}
+.pill{display:inline-flex;align-items:center;gap:12px;padding:12px 26px;border-radius:999px;font-weight:700;font-size:26px}
+.pill.blue{background:var(--blue);color:#fff}
+.pill.ghost{border:1.5px solid rgba(64,110,230,.6);color:#C9D6FF;background:rgba(37,99,255,.12)}
+.logo-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-weight:700;font-size:26px}
+.logo-card img{object-fit:contain}
+.win{border-radius:18px;overflow:hidden;border:1.5px solid rgba(64,110,230,.45);box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 60px rgba(37,99,255,.18);background:#0D1629}
+.winbar{height:44px;display:flex;align-items:center;gap:10px;padding:0 18px;background:#121D36;border-bottom:1px solid rgba(64,110,230,.3);font:500 17px 'JetBrains Mono';color:var(--slate)}
+.dot{width:13px;height:13px;border-radius:50%}
+.code{font:500 30px/1.6 'JetBrains Mono',monospace;padding:26px 34px;white-space:pre;color:#DCE4F5}
+.k{color:#C084FC}.f{color:#60A5FA}.c{color:#6B7A99;font-style:italic}.p{color:#DCE4F5}
+.chip{display:inline-flex;align-items:center;gap:14px;padding:18px 30px;border-radius:16px;font-weight:700;font-size:34px}
+.warn{background:rgba(245,165,36,.12);border:1.5px solid rgba(245,165,36,.55);color:#FCD28A}
+.step{display:flex;align-items:center;gap:26px;height:104px;padding:0 30px;border-radius:20px}
+.num{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;border:2px solid rgba(148,163,187,.4);color:var(--slate);flex:none}
+.node{position:absolute;display:flex;align-items:center;justify-content:center;gap:14px;font-weight:700;font-size:30px;border-radius:18px;height:96px}
+.hl{position:absolute;border:3px solid var(--sky);border-radius:14px;box-shadow:0 0 0 9999px rgba(6,10,22,.55),0 0 30px rgba(56,189,248,.6)}
+.wf{display:flex;align-items:center;justify-content:center;gap:18px;height:100px;border-radius:18px;background:#1E4FD8;border:2px solid #3B82F6;font-weight:800;font-size:34px;box-shadow:0 0 40px rgba(37,99,255,.35)}
+svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.av{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;color:#fff;border:3px solid #0F1A33;margin-left:-10px}.av:first-child{margin-left:0}
+.srcl{width:58px;height:58px;background:#111C36;border:1.5px solid rgba(64,110,230,.5);border-radius:14px;padding:8px}
+.stat{width:400px;height:330px;padding:36px 34px}.num2{font-weight:800;font-size:110px;line-height:1;letter-spacing:-3px}.lab{font-size:27px;line-height:1.35;color:#C4CFE4;margin-top:18px}
+.q{display:flex;align-items:center;gap:22px;height:92px;padding:0 30px;font-weight:700;font-size:31px}.qi{font-size:36px;width:48px;text-align:center}
+.prow{display:grid;grid-template-columns:330px 1fr 1fr 420px;border-bottom:1px solid rgba(148,163,187,.18)}.prow>div{padding:22px 24px;font-size:26px;color:#C4CFE4}
+.prow>div:first-child{font-weight:700;color:#8FA8E8;font-size:22px;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center}
+.phead>div{font-weight:800;font-size:32px;color:#fff}.rt{color:#fff!important;font-weight:700}
+.fl{display:flex;align-items:center;gap:24px;padding:26px 30px;font-size:32px}.fn{font-size:46px;width:56px;text-align:center;color:var(--violet)}.fs{font-size:24px;color:var(--slate);margin-top:4px;font-weight:500}
+.pc{height:330px;padding:34px 36px}.pnum{font-weight:800;font-size:26px;color:var(--blue);background:rgba(37,99,255,.15);border-radius:10px;padding:6px 12px}.pdesc{font-size:26px;line-height:1.45;color:#C4CFE4;margin-top:22px}
+.ms{font-size:19px!important;padding:10px 16px!important;white-space:nowrap}
+.proto{width:440px;height:100px;border-radius:18px;background:rgba(168,85,247,.16);border:2px solid rgba(168,85,247,.75);display:flex;align-items:center;justify-content:center;gap:16px;box-shadow:0 0 40px rgba(168,85,247,.3)}.proto b{font-size:36px}.proto span{font-size:24px;color:#E9D5FF}
+.hb{padding:32px 34px}.harr{font-size:64px;color:var(--violet);font-weight:800}.tg{background:rgba(148,163,187,.15);border-radius:10px;padding:6px 14px;font-size:22px;color:#DCE4F5}
+.pcard{width:400px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center}.pv{font-weight:800;font-size:58px}.pl{font-size:22px;color:var(--slate);margin-top:4px}
+</style></head>
+<body><div id="stage">
+<div id="bg"><div id="grid"></div><div class="glow" id="g1" style="width:900px;height:900px;background:#2563FF"></div><div class="glow" id="g2" style="width:800px;height:800px;background:#A855F7"></div></div>
+
+<!-- 1 INTRO -->
+<!-- INTRO3 -->
+<section class="scene" id="s-intro">
+  <img id="i-mark" class="abs" src="assets/rethrow-mark-fullcolor-1024x1024.png" style="width:280px;left:820px;top:330px">
+  <div id="i-chip" class="center" style="top:120px"><span class="pill ghost" style="font-size:26px">February 2025 · Andrej Karpathy coins a new term</span></div>
+  <div id="i-term" class="center h1" style="top:200px;font-size:130px">vibe coding</div>
+  <div id="i-dict" class="abs card" style="left:360px;top:400px;width:1200px;padding:40px 54px">
+    <div style="display:flex;align-items:baseline;gap:20px"><span style="font-weight:800;font-size:44px">vibe cod·ing</span><span style="font-size:26px;color:var(--slate);font-style:italic">noun</span></div>
+    <div style="font-size:34px;line-height:1.45;margin-top:16px;color:#E3E9F6">the act or practice of using an artificial intelligence system to generate computer code in a given programming language.</div>
+    <div style="font-size:22px;color:#8FA8E8;margin-top:18px;font-weight:700;letter-spacing:2px">MERRIAM-WEBSTER</div>
+  </div>
+  <div id="i-prompt" class="abs card" style="left:360px;top:790px;width:760px;height:110px;padding:0 30px;display:flex;align-items:center;gap:18px">
+    <span style="font-size:30px">✨</span><span id="i-ptext" style="font-size:28px;color:#DCE4F5"></span></div>
+  <div id="i-arrow" class="abs" style="left:1140px;top:810px;font-size:60px;color:var(--violet);font-weight:800">→</div>
+  <div id="i-app" class="abs card" style="left:1230px;top:770px;width:330px;height:150px;padding:22px;border-color:rgba(34,197,94,.7)">
+    <div style="display:flex;gap:8px"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div></div>
+    <div style="font-weight:800;font-size:28px;margin-top:14px">Working app</div><div style="font-size:21px;color:#C8F2D6;margin-top:6px">in hours, not months ✓</div></div>
+</section>
+
+<!-- STATS -->
+<section class="scene" id="s-stats">
+  <div id="st-h" class="center" style="top:100px"><div class="eyebrow">The rise of vibe coding</div><div class="h2" style="margin-top:14px">No longer a niche experiment.</div></div>
+  <div id="st-tiles" class="abs" style="left:110px;top:320px;width:1700px;display:flex;justify-content:space-between">
+    <div class="card stat" id="sa0"><div class="num2"><span data-v="90">0</span>%</div><div class="lab">of developers use AI coding tools</div></div>
+    <div class="card stat" id="sa1"><div class="num2"><span data-v="41">0</span>%</div><div class="lab">of new code is AI-generated</div></div>
+    <div class="card stat" id="sa2"><div class="num2"><span data-v="63">0</span>%</div><div class="lab">of builders have no software engineering background</div></div>
+    <div class="card stat" id="sa3"><div class="num2"><span data-v="25">0</span>%</div><div class="lab">of Y Combinator W25 startups ran ~95% AI-generated codebases</div></div>
+  </div>
+  <div id="st-mil" class="abs card" style="left:110px;top:720px;width:1700px;height:190px;padding:0 50px;display:flex;align-items:center;gap:40px;overflow:hidden">
+    <div style="font-weight:800;font-size:54px;white-space:nowrap" class="grad">Tens of millions</div><div style="font-size:30px;color:#C4CFE4">of AI-built apps now exist, and the pace is accelerating.</div>
+    <svg id="st-chart" width="420" height="150" style="margin-left:auto"></svg></div>
+  <div id="st-src" class="center" style="top:1010px;font-size:17px;color:#6B7A99">Approximate figures from industry surveys and analyses cited in Rethrow's “Introducing Rethrow” blog post (2026).</div>
+</section>
+
+
+<!-- CLIFF -->
+<section class="scene" id="s-cliff">
+  <svg class="abs cliffsvg" style="left:0;top:0" width="1920" height="1080"></svg>
+  <div id="c-q" class="center h2" style="top:110px">Do you <span class="blue">own</span> what you built?</div>
+  <div id="c-demo" class="abs eyebrow" style="left:300px;top:660px;font-size:24px">Demo</div>
+  <div id="c-prod" class="abs eyebrow" style="left:1380px;top:600px;font-size:24px">Production</div>
+  <div id="c-mvp" class="abs card" style="left:230px;top:390px;width:420px;height:240px;padding:26px">
+    <div style="display:flex;gap:9px;margin-bottom:18px"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div></div>
+    <div style="font-weight:800;font-size:36px">Your MVP</div>
+    <div style="display:flex;gap:12px;margin-top:22px"><img src="assets/lovable-dark.png" style="width:48px"><img src="assets/base44-dark.png" style="width:48px"><img src="assets/replit-dark.png" style="width:48px"><img src="assets/bolt-dark.png" style="width:48px"></div>
+    <div style="margin-top:16px;font-size:20px;color:var(--slate)">Demos well ✓</div>
+  </div>
+  <div id="c-target" class="abs" style="left:1260px;top:330px;width:440px;height:240px;border:2.5px dashed rgba(148,163,187,.45);border-radius:22px;padding:28px">
+    <div style="font-weight:800;font-size:32px;color:#C9D3E8">Production-ready</div>
+    <div style="margin-top:18px;font-size:23px;line-height:1.8;color:var(--slate)">Scalable · Secure · Reliable<br>Owned by you</div>
+  </div>
+  <div id="c-gap" class="abs" style="left:760px;width:400px;top:560px;text-align:center;font-weight:800;font-size:24px;letter-spacing:3px;color:#FCD28A">THE VIBE CODING CLIFF</div>
+  <div id="c-w1" class="abs chip warn" style="left:820px;top:640px;width:280px;justify-content:center">⚠ Scalability</div>
+  <div id="c-w2" class="abs chip warn" style="left:820px;top:745px;width:280px;justify-content:center">⚠ Security</div>
+  <div id="c-w3" class="abs chip warn" style="left:820px;top:850px;width:280px;justify-content:center">⚠ Reliability</div>
+</section>
+<!-- QUESTIONS -->
+<section class="scene" id="s-questions">
+  <div id="q-h" class="abs" style="left:110px;top:100px"><div class="eyebrow">Beyond the demo</div><div class="h2" style="margin-top:14px">Questions that never mattered in a demo.</div></div>
+  <div id="q-list" class="abs" style="left:110px;top:300px;width:1060px;display:flex;flex-direction:column;gap:22px">
+    <div class="q card" id="qq0"><span class="qi">🔑</span>Who owns the infrastructure? Where does the code live?</div>
+    <div class="q card" id="qq1"><span class="qi">🚀</span>How is it deployed, and how do you roll back?</div>
+    <div class="q card" id="qq2"><span class="qi">🛡</span>Networking, identity, encryption, and access?</div>
+    <div class="q card" id="qq3"><span class="qi">📈</span>Traffic spikes and platform rate limits?</div>
+    <div class="q card" id="qq4"><span class="qi">🚪</span>What if you want to leave the platform?</div>
+  </div>
+  <div id="q-risk" class="abs" style="left:1250px;top:300px;width:560px;height:560px;border-radius:26px;background:linear-gradient(180deg,rgba(240,68,56,.18),rgba(240,68,56,.05));border:2px solid rgba(240,68,56,.7);box-shadow:0 0 80px rgba(240,68,56,.25);padding:46px;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:28px;color:#FCA5A5;font-weight:700;letter-spacing:2px">THE STAKES</div>
+    <div style="font-weight:800;font-size:120px;line-height:1;margin-top:18px">~<span id="q-num">0</span>%</div>
+    <div style="font-size:32px;line-height:1.35;margin-top:18px;color:#FDE2E2">of AI-generated code fails basic security testing, by some measures.</div>
+  </div>
+</section>
+
+<!-- PATHS -->
+<section class="scene" id="s-paths">
+  <div id="pa-h" class="center" style="top:80px"><div class="eyebrow">Your path to production</div><div class="h2" style="margin-top:14px">Three paths from prototype to production.</div></div>
+  <div id="pa-table" class="abs" style="left:110px;top:270px;width:1700px">
+    <div class="prow phead"><div></div><div id="ph0">Do it yourself</div><div id="ph1">Hire a developer</div><div id="ph2" class="rt">Rethrow</div></div>
+    <div class="prow"><div>Time to production</div><div class="c0">Weeks to months of learning</div><div class="c1">Weeks, plus hiring &amp; onboarding</div><div class="c2 rt">Migrate in under an hour</div></div>
+    <div class="prow"><div>Expertise required</div><div class="c0">High: cloud, DevOps, security</div><div class="c1">You scope &amp; manage the work</div><div class="c2 rt">None, agent-orchestrated</div></div>
+    <div class="prow"><div>Ownership</div><div class="c0">Yours, if you can build it</div><div class="c1">Depends on the contract</div><div class="c2 rt">Your repo &amp; cloud account</div></div>
+    <div class="prow"><div>Production-readiness</div><div class="c0">DIY security &amp; scaling</div><div class="c1">Varies by team</div><div class="c2 rt">Secure, scalable by default</div></div>
+    <div class="prow"><div>Cost shape</div><div class="c0">Your time + cloud bill</div><div class="c1">High, ongoing or contract</div><div class="c2 rt">Flat migration + per-seat Studio</div></div>
+  </div>
+  <div id="pa-hl" class="abs" style="left:1390px;top:262px;width:420px;height:600px;border:3px solid var(--blue);border-radius:20px;box-shadow:0 0 60px rgba(37,99,255,.45)"></div>
+</section>
+
+<!-- NAME -->
+<section class="scene" id="s-name">
+  <div id="n-h" class="abs" style="left:110px;top:90px"><div class="eyebrow">Why the name?</div><div class="h2" style="margin-top:14px">Catch it. Handle it. <span class="blue">Rethrow it.</span></div></div>
+  <div id="n-win" class="abs win" style="left:110px;top:290px;width:980px;height:560px">
+    <div class="winbar"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div><span style="margin-left:10px">rethrow.ai</span></div>
+    <div id="n-code" class="code" style="font-size:31px;padding:34px 40px"></div>
+    <div id="n-hlline" class="abs" style="left:24px;width:930px;height:104px;border-radius:12px;background:rgba(37,99,255,.18);border:2px solid rgba(96,140,255,.8)"></div>
+  </div>
+  <div id="n-flow" class="abs" style="left:1170px;top:300px;width:640px;display:flex;flex-direction:column;gap:22px">
+    <div class="fl card" id="nf0"><span class="fn">⚠</span><div><b>Exception</b><div class="fs">Your app outgrows the prototype</div></div></div>
+    <div class="fl card" id="nf1"><span class="fn">⤓</span><div><b>Catch &amp; handle</b><div class="fs">Keep what already works</div></div></div>
+    <div class="fl card" id="nf2" style="border-color:rgba(37,99,255,.9)"><span class="fn" style="color:var(--blue)">↻</span><div><b>Rethrow</b><div class="fs">Move it forward onto dedicated cloud</div></div></div>
+  </div>
+  <div id="n-mission" class="center" style="top:900px"><span style="display:inline-block;font-weight:800;font-size:52px;letter-spacing:-1px">Build fast. <span class="grad">Own what comes next.</span></span></div>
+</section>
+
+
+<!-- BRIDGE -->
+<section class="scene" id="s-bridge">
+  <svg class="abs cliffsvg" style="left:0;top:0" width="1920" height="1080"></svg>
+  <div id="b-h" class="center" style="top:90px"><div class="h2" style="font-size:66px">Move beyond vibe coding</div><div class="h2 blue" style="font-size:66px;margin-top:6px">without becoming a cloud engineer.</div></div>
+  <div id="b-beam" class="abs" style="left:740px;top:586px;width:440px;height:34px;border-radius:10px;background:linear-gradient(90deg,#2563FF,#A855F7);box-shadow:0 0 50px rgba(37,99,255,.8);transform-origin:0 50%"></div>
+  <img id="b-logo" class="abs" src="assets/rethrow-logo-reversed-white-1440w.png" style="width:300px;left:810px;top:640px">
+  <div id="b-eyebrow" class="abs eyebrow" style="left:760px;width:400px;text-align:center;top:740px;font-size:18px;color:#C9D6FF">bridges the gap</div>
+  <div id="b-mvp" class="abs card" style="left:230px;top:390px;width:420px;height:240px;padding:26px">
+    <div style="display:flex;gap:9px;margin-bottom:18px"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div></div>
+    <div style="font-weight:800;font-size:36px">Your MVP</div>
+    <div style="display:flex;gap:12px;margin-top:22px"><img src="assets/lovable-dark.png" style="width:48px"><img src="assets/base44-dark.png" style="width:48px"><img src="assets/replit-dark.png" style="width:48px"><img src="assets/bolt-dark.png" style="width:48px"></div>
+    <div style="margin-top:16px;font-size:20px;color:var(--slate)">Demos well ✓</div>
+  </div>
+  <div id="b-ph" class="abs" style="left:1260px;top:330px;width:440px;height:240px;border:2.5px dashed rgba(148,163,187,.45);border-radius:22px;padding:28px"><div style="font-weight:800;font-size:32px;color:#C9D3E8">Production-ready</div><div style="margin-top:18px;font-size:23px;line-height:1.8;color:var(--slate)">Scalable · Secure · Reliable<br>Owned by you</div></div>
+  <div id="b-target" class="abs card" style="left:1260px;top:330px;width:440px;height:240px;padding:28px;border-color:rgba(34,197,94,.7);box-shadow:0 0 60px rgba(34,197,94,.25)">
+    <div style="font-weight:800;font-size:32px">Production-ready</div>
+    <div style="margin-top:14px;font-size:23px;line-height:1.7;color:#C8F2D6">✓ Scalable · ✓ Secure · ✓ Reliable<br>✓ On cloud infrastructure you own</div>
+    <div style="display:flex;gap:14px;margin-top:12px"><img src="assets/aws-dark-background.png" style="width:44px"><img src="assets/gcp-dark-background.png" style="width:44px"><img src="assets/azure-dark-background.png" style="width:44px"><img src="assets/7b0e35463_oracle-icon-red.png" style="width:44px"></div>
+  </div>
+  <div id="b-s" class="center" style="top:890px;display:flex;justify-content:center;gap:26px"><span id="b-p1" class="pill blue" style="font-size:32px;padding:18px 36px">Migrate an existing app</span><span id="b-p2" class="pill ghost" style="font-size:32px;padding:18px 36px;background:rgba(11,18,32,.9)">Build something new</span></div>
+</section>
+
+<!-- 5 MIGRATE -->
+<section class="scene" id="s-migrate">
+  <div id="m-head" class="abs" style="left:110px;top:90px;display:flex;align-items:center;gap:24px">
+    <span class="pill ghost" style="letter-spacing:4px">MIGRATE</span><span class="h3" style="font-size:44px">Move your app, without starting over.</span></div>
+  <div id="m-src" class="abs" style="right:110px;top:84px;display:flex;align-items:center;gap:14px"><span style="color:var(--slate);font-weight:600;font-size:22px;margin-right:6px">From</span>
+    <img src="assets/lovable-dark.png" class="srcl"><img src="assets/base44-dark.png" class="srcl"><img src="assets/replit-dark.png" class="srcl"><img src="assets/bolt-dark.png" class="srcl"><span style="color:var(--slate);font-weight:600;font-size:20px">&amp; more</span></div>
+  <div id="m-steps" class="abs" style="left:110px;top:210px;width:620px;display:flex;flex-direction:column;gap:18px"></div>
+  <div id="m-shot" class="abs win" style="left:800px;top:210px;width:1010px">
+    <div class="winbar"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div><span style="margin-left:10px">rethrow.ai · migrations</span></div>
+    <div style="position:relative;overflow:hidden;height:550px"><img id="m-img" src="assets/frontend-rethrow-migrations.png" style="position:absolute;left:0;top:0;width:1010px;transform-origin:0 0">
+      <div id="m-mask" style="position:absolute;background:#0F1B33"></div></div>
+  </div>
+  <div id="m-b1" class="abs pill ghost" style="left:800px;top:830px">✓ Source app untouched</div>
+  <div id="m-b2" class="abs pill ghost" style="left:1180px;top:830px">✓ Validation before cutover</div>
+  <div id="m-b3" class="abs pill ghost" style="left:800px;top:910px">⚡ Goal: under an hour</div>
+  <div id="m-price" class="abs card" style="left:1330px;top:890px;width:480px;height:120px;display:flex;align-items:center;justify-content:center;gap:18px;border-color:rgba(37,99,255,.9);box-shadow:0 0 60px rgba(37,99,255,.4)">
+    <span style="font-weight:800;font-size:60px">$500</span><span style="font-size:24px;color:var(--slate);line-height:1.3">one-time<br>free assessment</span></div>
+</section>
+
+<!-- 6 LOOP -->
+<section class="scene" id="s-loop">
+  <div id="l-t" class="center" style="top:90px"><div class="eyebrow">Migration agents</div><div class="h2" style="margin-top:14px">One spec at a time.</div></div>
+  <div id="l-spec" class="abs card" style="left:110px;top:330px;width:330px;height:300px;padding:34px">
+    <div class="eyebrow" style="font-size:16px;color:var(--slate)">Current spec</div>
+    <div id="l-count" style="font-weight:800;font-size:72px;margin-top:10px">1 / 12</div>
+    <div style="font-size:20px;color:var(--slate);margin-top:14px;line-height:1.5">Requirements · Design · Tasks</div>
+  </div>
+  <div id="l-n1" class="node card" style="left:560px;top:330px;width:300px">✎ Write code</div>
+  <div id="l-n2" class="node card" style="left:960px;top:330px;width:300px">⇪ Deploy</div>
+  <div id="l-n3" class="node card" style="left:1360px;top:330px;width:300px">◉ Verify</div>
+  <div id="l-n4" class="node card" style="left:1360px;top:560px;width:300px;border-color:rgba(34,197,94,.6)">✓ Commit &amp; push</div>
+  <div id="l-f" class="node" style="left:900px;top:560px;width:420px;border:2px dashed rgba(240,68,56,.7);color:#FCA5A5;background:rgba(240,68,56,.08)">↺ Feed failure to agent</div>
+  <div id="l-h" class="node" style="left:900px;top:760px;width:420px;border:2px solid rgba(168,85,247,.7);color:#E9D5FF;background:rgba(168,85,247,.1)">⚑ Escalate to human</div>
+  <svg id="l-svg" class="abs" style="left:0;top:0" width="1920" height="1080"></svg>
+  <div id="l-pulse" class="abs" style="width:26px;height:26px;border-radius:50%;background:var(--sky);box-shadow:0 0 24px var(--sky)"></div>
+</section>
+
+<!-- 7 STUDIO -->
+<section class="scene" id="s-studio">
+  <div id="st-head" class="abs" style="left:110px;top:70px;display:flex;align-items:center;gap:24px">
+    <span class="pill ghost" style="letter-spacing:4px">BUILD</span><span class="h3" style="font-size:44px">Rethrow Studio</span>
+    <span id="st-price" class="pill blue" style="margin-left:14px">from $100/mo</span></div>
+  <div id="st-shot" class="abs win" style="left:160px;top:170px;width:1600px">
+    <div class="winbar"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div><span style="margin-left:10px">rethrow.ai · studio</span></div>
+    <div style="position:relative;height:836px;overflow:hidden"><img src="assets/frontend-rethrow-studio.png" style="width:1600px;display:block"><div id="st-hl" class="hl"></div></div>
+  </div>
+  <div id="st-cap" class="abs pill blue" style="left:0;top:960px;font-size:30px;padding:16px 34px"></div>
+</section>
+
+<!-- 8 HARNESS -->
+<section class="scene" id="s-harness">
+  <svg id="h-svg" class="abs" style="left:0;top:0" width="1920" height="1080"></svg>
+  <img id="h-logo" class="abs" src="assets/rethrow-logo-reversed-white-1440w.png" style="width:330px;left:795px;top:26px">
+  <div id="h-eyebrow" class="center eyebrow" style="top:150px;font-size:26px;letter-spacing:9px;color:#9FB4EC">Multi-harness control plane</div>
+  <div id="h-r1" class="center" style="top:218px"><div class="h3" style="font-size:38px">Bring Your Own Agent Harness</div><div class="sub" style="font-size:24px;margin-top:6px">Use the agent you already know and pay for.</div></div>
+  <div id="h-harness" class="abs" style="left:110px;top:340px;width:1700px;display:flex;justify-content:space-between"></div>
+  <div id="h-r2" class="center h3" style="top:545px;font-size:38px">Emerging agent protocols → <span class="blue">one uniform experience</span></div>
+  <div id="h-r2b" class="center h3" style="top:545px;font-size:38px">Workflows managed by Rethrow</div>
+  <div id="h-proto" class="abs" style="left:230px;top:620px;width:1460px;display:flex;justify-content:space-between">
+    <div class="proto"><b>ACP</b><span>Agent Client Protocol</span></div>
+    <div class="proto"><b>CLI</b><span>Streaming</span></div>
+    <div class="proto"><b>MCP</b><span>Model Context Protocol</span></div></div>
+  <div id="h-a" class="abs" style="left:160px;top:390px;width:1600px;display:flex;align-items:center;justify-content:space-between">
+    <div class="card hb" style="width:320px"><div class="eyebrow" style="font-size:16px">Intelligence</div><div class="h3" style="margin-top:10px">AI model</div></div>
+    <div class="harr">→</div>
+    <div class="card hb" style="width:660px;border-color:rgba(168,85,247,.8);box-shadow:0 0 60px rgba(168,85,247,.3)"><div class="eyebrow" style="font-size:16px;color:#D8B4FE">The runtime around the model</div><div class="h3" style="margin-top:10px">Agent harness</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px"><span class="tg">files</span><span class="tg">repositories</span><span class="tg">commands</span><span class="tg">tools</span><span class="tg">permissions</span><span class="tg">sessions</span></div></div>
+    <div class="harr">→</div>
+    <div class="card hb" style="width:320px"><div class="eyebrow" style="font-size:16px">Outcome</div><div class="h3" style="margin-top:10px">Working software</div></div></div>
+  <div id="h-wf" class="abs" style="left:230px;top:620px;width:1460px;display:flex;justify-content:space-between">
+    <div class="wf" style="width:440px"><svg class="ic" viewBox="0 0 24 24"><path d="M4 8h14l-4-4M20 16H6l4 4"/></svg>Migrations</div>
+    <div class="wf" style="width:440px"><svg class="ic" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Development</div>
+    <div class="wf" style="width:520px"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Infrastructure Operations</div>
+  </div>
+  <div id="h-r3" class="center h3" style="top:765px;font-size:38px">Against dedicated cloud infrastructure</div>
+  <div id="h-cloud" class="abs" style="left:150px;top:840px;width:1620px;display:flex;justify-content:space-between"></div>
+  <div id="h-quote" class="center" style="top:995px;font-weight:700;font-size:34px;font-style:italic;color:#E3E9F6">“Rethrow should remain consistent, even when the underlying agent changes.”</div>
+  <div id="h-cap" class="center sub" style="top:960px;font-size:30px">Standardizes how agents interact with <b style="color:#fff">code</b>, <b style="color:#fff">execution environments</b>, and <b style="color:#fff">cloud infrastructure</b>.</div>
+  <div id="h-your" class="center" style="top:1000px;font-weight:800;font-size:36px;letter-spacing:-.5px"><span id="y1">Your agent.</span>&nbsp;&nbsp; <span id="y2">Your code.</span>&nbsp;&nbsp; <span id="y3" class="blue">Your cloud.</span></div>
+</section>
+<!-- PRINCIPLES -->
+<section class="scene" id="s-principles">
+  <div id="pr-h" class="center" style="top:70px"><div class="eyebrow">What we care about</div><div class="h2" style="margin-top:12px">Six guiding principles.</div></div>
+  <div id="pr-grid" class="abs" style="left:110px;top:240px;width:1700px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px"></div>
+  <div id="pr-note" class="center sub" style="top:990px;font-size:26px">01–05 make an app <b style="color:#fff">production-ready</b> · 06 keeps it <b style="color:#fff">portable</b></div>
+</section>
+
+
+<!-- ORGANIZE -->
+<section class="scene" id="s-organize">
+  <div id="o-head" class="abs" style="left:110px;top:70px;display:flex;align-items:center;gap:24px">
+    <span class="pill ghost" style="letter-spacing:4px">ORGANIZE</span><span class="h3" style="font-size:44px">Multi-user, multi-app workspaces</span>
+    <span id="o-badge" class="pill blue" style="margin-left:10px;font-size:22px">At launch</span></div>
+  <div id="o-shot" class="abs win" style="left:160px;top:170px;width:1600px">
+    <div class="winbar"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div><span style="margin-left:10px">rethrow.ai · workspace</span></div>
+    <div style="position:relative;height:836px;overflow:hidden"><div id="o-img" style="position:relative;transform-origin:30% 20%"><img src="assets/organize-screenshot.png" style="width:1600px;display:block">
+      <div style="position:absolute;left:0;top:735px;width:240px;height:72px;background:#0F1B33"></div></div>
+      <div id="o-hl" class="hl" style="left:262px;top:196px;width:1325px;height:385px"></div></div>
+  </div>
+  <div id="o-team" class="abs card" style="left:1330px;top:720px;width:470px;padding:26px 30px">
+    <div class="eyebrow" style="font-size:16px">Workspace members</div>
+    <div style="display:flex;align-items:center;margin-top:16px">
+      <div class="av" style="background:#2563FF">DE</div><div class="av" style="background:#A855F7">MK</div><div class="av" style="background:#0EA5E9">JL</div><div class="av" style="background:#22C55E">+4</div>
+      <span class="pill blue" style="margin-left:auto;font-size:20px;padding:10px 20px">+ Invite</span></div>
+  </div>
+</section>
+
+
+<!-- 9 AUDIENCE -->
+<section class="scene" id="s-audience">
+  <div id="a-t" class="center" style="top:120px"><div class="eyebrow">Use cases</div><div class="h2" style="margin-top:14px">For builders at every stage.</div></div>
+  <div id="a-cards" class="abs" style="left:110px;top:360px;width:1700px;display:flex;justify-content:space-between">
+    <div class="card" style="width:540px;height:380px;padding:46px"><div style="font-size:64px">🚀</div><div class="eyebrow" style="font-size:18px;margin-top:24px">Non-technical founders</div><div class="h3" style="margin-top:18px;font-size:36px;line-height:1.25">Your MVP worked. Give it a place to grow.</div></div>
+    <div class="card" style="width:540px;height:380px;padding:46px"><div style="font-size:64px">🏢</div><div class="eyebrow" style="font-size:18px;margin-top:24px">Enterprise innovation teams</div><div class="h3" style="margin-top:18px;font-size:36px;line-height:1.25">Turn successful MVPs into business applications.</div></div>
+    <div class="card" style="width:540px;height:380px;padding:46px"><div style="font-size:64px">🎨</div><div class="eyebrow" style="font-size:18px;margin-top:24px">Agencies &amp; studios</div><div class="h3" style="margin-top:18px;font-size:36px;line-height:1.25">Deliver client apps faster, with a seamless handoff.</div></div>
+  </div>
+  <div id="a-s" class="center sub" style="top:880px;font-size:36px">From prototype <span class="blue" style="font-weight:700">→</span> production.</div>
+</section>
+<!-- FOUNDER -->
+<section class="scene" id="s-founder">
+  <div id="f-eyebrow" class="abs eyebrow" style="left:110px;top:100px">Meet the founder</div>
+  <div id="f-photo" class="abs" style="left:110px;top:170px;width:560px;height:610px;border-radius:26px;overflow:hidden;border:2px solid rgba(96,140,255,.7);box-shadow:0 0 80px rgba(37,99,255,.35)"><img src="assets/founder-dustin.png" style="width:100%;height:100%;object-fit:cover"></div>
+  <div id="f-pitch" class="abs" style="left:470px;top:600px;width:360px;height:352px;border-radius:20px;overflow:hidden;border:2px solid rgba(168,85,247,.8);box-shadow:0 20px 60px rgba(0,0,0,.6)"><img src="assets/dustin-pitch.png" style="width:100%;height:100%;object-fit:cover"></div>
+  <div id="f-name" class="abs" style="left:900px;top:170px"><div class="h1" style="font-size:88px">Dustin Ellis</div><div class="sub" style="font-size:32px;margin-top:8px">Founder, Rethrow</div></div>
+  <div id="f-c1" class="abs chip" style="left:900px;top:380px;background:rgba(37,99,255,.15);border:1.5px solid rgba(96,140,255,.7);font-size:30px">Former AWS Senior Solutions Architect</div>
+  <div id="f-c2" class="abs chip" style="left:900px;top:475px;background:rgba(168,85,247,.15);border:1.5px solid rgba(168,85,247,.7);font-size:30px">AWS Developer Ambassador · Kiro</div>
+  <div id="f-c3" class="abs" style="left:904px;top:575px;font-size:24px;color:var(--slate);font-weight:600">10x AWS certified &nbsp;·&nbsp; U.S. Marine Corps veteran</div>
+  <div id="f-ms" class="abs" style="left:900px;top:900px;width:900px;display:flex;gap:14px"><span class="pill ghost ms" id="fm0">Dec 2025 · re:Invent</span><span class="pill ghost ms" id="fm1">May 2026 · Pivot</span><span class="pill ghost ms" id="fm2">Jun–Aug 2026 · Launchpad</span><span class="pill ghost ms" id="fm3">Sep 2026 · Rethrow</span></div>
+  <div id="f-lp" class="abs card" style="left:900px;top:670px;width:880px;height:190px;padding:30px;display:flex;align-items:center;gap:30px">
+    <img src="assets/launchpad-logo.png" style="width:130px;height:130px;border-radius:18px">
+    <div><div style="font-weight:800;font-size:34px">Launchpad Tech Ventures</div>
+      <div style="font-size:25px;color:#C8F2D6;margin-top:10px">✓ Completed Summer '26 accelerator</div>
+      <div style="font-size:25px;color:#C9D6FF;margin-top:6px">✦ Launchpad Ignite member</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="scene" id="s-cta">
+  <img id="c-mark" class="abs" src="assets/rethrow-mark-fullcolor-1024x1024.png" style="width:110px;left:905px;top:44px">
+  <div id="c-h" class="center h1" style="top:170px;font-size:86px">Build fast. <span class="grad">Own what comes next.</span></div>
+  <div id="c-pills" class="center" style="top:300px;display:flex;justify-content:center;gap:18px">
+    <span class="pill blue" style="font-size:26px">General availability · Start of 2027</span>
+    <span class="pill ghost" style="font-size:26px">Early users onboarding now</span></div>
+  <div id="c-partner" class="center" style="top:375px"><span class="pill ghost" style="font-size:24px;border-color:rgba(168,85,247,.7);background:rgba(168,85,247,.12)">Resellers · Startup communities · Agencies: early access &amp; volume-based pricing</span></div>
+  <div id="c-price" class="abs" style="left:310px;top:455px;width:1300px;display:flex;justify-content:space-between">
+    <div class="card pcard"><div class="pv">$500</div><div class="pl">one-time migration</div></div>
+    <div class="card pcard"><div class="pv">$100</div><div class="pl">per user / month · Studio</div></div>
+    <div class="card pcard"><div class="pv" style="font-size:44px;line-height:1.3">BYOA</div><div class="pl">bring your own agent</div></div></div>
+  <div id="c-note" class="abs card" style="left:360px;top:640px;width:1200px;padding:24px 40px;text-align:center;font-size:24px;line-height:1.5;color:#C4CFE4">
+    Pricing, features, and agent availability are subject to change before launch in early 2027. Until then, our development team is heads-down building the best experience for future customers.</div>
+  <div id="c-btn" class="center" style="top:800px"><span class="pill blue" style="font-size:44px;padding:24px 56px;box-shadow:0 0 70px rgba(37,99,255,.6)">Join the waitlist&nbsp;→&nbsp;rethrow.ai</span></div>
+  <div id="c-lp" class="center" style="top:935px;display:flex;justify-content:center"><span style="display:inline-flex;align-items:center;gap:14px;background:#fff;color:#1a1f36;border-radius:999px;padding:8px 24px 8px 10px;font-weight:600;font-size:21px"><img src="assets/launchpad-logo.png" style="width:40px;height:40px;border-radius:50%">Launchpad Tech Ventures · Summer '26 · Ignite</span></div>
+  <div id="c-disc" class="center" style="top:1025px;font-size:16px;color:#6B7A99">Third-party names and logos are trademarks of their respective owners and indicate compatibility, not endorsement.</div>
+</section>
+
+
+
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-clamp(x),3);
+const eio=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const P=(lt,a,d=.6)=>eo((lt-a)/d);
+function show(el,lt,a,o={}){const d=o.d??.6,y=o.y??30,s=o.s??1,x=o.x??0;const p=P(lt,a,d);el.style.opacity=p*(o.max??1);
+  el.style.transform=`translate(${x*(1-p)}px,${y*(1-p)}px) scale(${s+(1-s)*p})`;return p}
+function hide(el,lt,a,d=.5){const p=P(lt,a,d);el.style.opacity=(parseFloat(el.style.opacity)||1)*(1-p);return p}
+// helpers per scene
+function mk(sc){const L=i=>sc.lead+sc.lines[i].t;const D=i=>sc.lines[i].d;
+  const W=(i,w)=>{const ln=sc.lines[i],k=ln.text.indexOf(w);return L(i)+ln.d*(k<0?0:k/ln.text.length)};return {L,D,W}}
+
+// ---- build dynamic DOM
+const steps=[["Connect","Install a GitHub App on your repo"],["Assess","Agents propose a cloud architecture"],["Plan","Spec-driven migration plan"],["Migrate","Provision, refactor, deploy"],["Launch","Validate, cut over, own it"]];
+$('m-steps').innerHTML=steps.map((s,i)=>`<div class="step card" id="ms${i}"><div class="num" id="mn${i}">0${i+1}</div><div><div style="font-weight:800;font-size:34px">${s[0]}</div><div style="font-size:22px;color:var(--slate);margin-top:4px">${s[1]}</div></div></div>`).join('');
+const harn=[["claude-dark-background","Claude Code"],["codex-dark-background","Codex"],["51f743457_cursor-dark","Cursor"],["gemini-dark-background","Gemini CLI"],["factory-droid-dark-background","Factory Droid"],["goose-dark-background","Goose"],["kiro-dark-background","Kiro"]];
+$('h-harness').innerHTML=harn.map((h,i)=>`<div class="card logo-card" id="hh${i}" style="width:228px;height:170px;font-size:23px"><img src="assets/${h[0]}.png" style="width:74px;height:74px">${h[1]}</div>`).join('');
+const clouds=[["aws-dark-background","Amazon Web Services"],["azure-dark-background","Microsoft Azure"],["gcp-dark-background","Google Cloud Platform"],["7b0e35463_oracle-icon-red","Oracle Cloud Infrastructure"]];
+$('h-cloud').innerHTML=clouds.map((c,i)=>`<div class="card logo-card" id="hc${i}" style="width:380px;height:140px;font-size:23px;gap:10px"><img src="assets/${c[0]}.png" style="width:74px;height:74px">${c[1]}</div>`).join('');
+
+// code tokens
+const CODE=[["// your app outgrew the prototype\n","c"],["try","k"],[" {\n  yourApp.","p"],["shipFast","f"],["();\n} ","p"],["catch","k"],[" (OutgrewThePrototype e) {\n  ","p"],["rethrow","f"],["(yourApp)\n    .","p"],["onto","f"],["(dedicatedCloud);\n  ","p"],["// AWS · GCP · Azure · OCI\n","c"],["}\n","p"],["// production-grade, owned by you ✓","c"]];
+const CODELEN=CODE.reduce((a,t)=>a+t[0].length,0);
+function codeHTML(n){let out='',r=n;for(const[t,c]of CODE){if(r<=0)break;const s=t.slice(0,r);r-=t.length;out+=`<span class="${c}">${s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`}return out+(n<CODELEN?'<span style="background:#60A5FA">&nbsp;</span>':'')}
+
+// ---- scene renderers
+const R={};
+R.migrate=(lt,sc,{L,W})=>{
+  show($('m-head'),lt,.1);
+  {const nm=['Lovable','Base44','Replit','Base44'];[...$('m-src').querySelectorAll('img')].forEach((im,i)=>show(im,lt,(i==3?W(0,'Base44')+.3:W(0,nm[i])-.15),{y:16,s:.7,d:.4}));show($('m-src').children[0],lt,W(0,'Lovable')-.4,{y:0});show($('m-src').lastElementChild,lt,W(0,'Base44')+.4,{y:0});}
+  const at=[W(0,'GitHub')-.2,W(1,'assess'),W(2,'spec-driven'),W(2,'refactor'),W(2,'validate')];
+  steps.forEach((s,i)=>{const el=$('ms'+i);show(el,lt,.3+i*.12,{x:-40,y:0});const on=P(lt,at[i]-.1,.4);
+    el.style.borderColor=`rgba(${on?'37,99,255':'64,110,230'},${.45+.5*on})`;el.style.boxShadow=`0 0 ${50*on}px rgba(37,99,255,${.45*on})`;
+    const n=$('mn'+i);n.style.background=on>.5?'var(--blue)':'transparent';n.style.color=on>.5?'#fff':'var(--slate)';n.style.borderColor=on>.5?'var(--blue)':'rgba(148,163,187,.4)';n.textContent=(on>.5&&lt>(at[i+1]??1e9))?'✓':'0'+(i+1)});
+  show($('m-shot'),lt,.5,{x:60,y:0});
+  const z=clamp((lt-1)/22);$('m-img').style.transform=`scale(${1.08+.25*z}) translate(${-40*z}px,${-20*z}px)`;
+  // mask user email row (image natural 2550x1387 displayed at 1010 wide)
+  const sc2=1.08+.25*z,k=1010/2550*sc2,mk=$('m-mask');
+  mk.style.left=(-40*z*sc2)+'px';mk.style.top=(1180*k-20*z*sc2)+'px';mk.style.width=(383*k)+'px';mk.style.height=(95*k)+'px';
+  show($('m-b1'),lt,W(2,'original'),{s:.8,y:0});show($('m-b2'),lt,W(2,'validate'),{s:.8,y:0});show($('m-b3'),lt,W(3,'under an hour')-.2,{s:.8,y:0});
+  show($('m-price'),lt,L(4)-.1,{s:.7,y:0});
+};
+function nodeState(el,st){ // 0 idle 1 active 2 fail 3 ok
+  const c=st==1?'56,189,248':st==2?'240,68,56':st==3?'34,197,94':'64,110,230';
+  el.style.borderColor=`rgba(${c},${st?1:.45})`;el.style.boxShadow=st?`0 0 45px rgba(${c},.55)`:'none'}
+R.loop=(lt,sc,{L,W})=>{
+  show($('l-t'),lt,.1);show($('l-spec'),lt,.3,{x:-40,y:0});
+  ['l-n1','l-n2','l-n3','l-n4'].forEach((id,i)=>show($(id),lt,.5+i*.12,{y:30}));
+  const svg=$('l-svg');
+  let fOp=0,hOp=0;
+  const fail0=W(2,'check')-.3;
+  fOp=P(lt,fail0,.4);hOp=P(lt,W(2,'escalates'),.5);
+  const arrows=`<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#3B82F6"/></marker></defs>
+   <path d="M860 378H955" stroke="#3B82F6" stroke-width="3" marker-end="url(#ah)"/><path d="M1260 378H1355" stroke="#3B82F6" stroke-width="3" marker-end="url(#ah)"/>
+   <path d="M1510 426V555" stroke="#22C55E" stroke-width="3" marker-end="url(#ah)"/>
+   <path d="M1360 380 C1330 470 1330 560 1325 600" stroke="#F04438" stroke-width="3" stroke-dasharray="8 8" fill="none" opacity="${fOp}" marker-end="url(#ah)"/>
+   <path d="M900 608 C760 600 710 520 710 432" stroke="#F04438" stroke-width="3" stroke-dasharray="8 8" fill="none" opacity="${fOp}" marker-end="url(#ah)"/>
+   <path d="M1110 656V755" stroke="#A855F7" stroke-width="3" stroke-dasharray="6 8" fill="none" opacity="${hOp}" marker-end="url(#ah)"/>
+   <path d="M1510 656 C1510 720 1510 740 1400 740 L500 740 C440 740 440 520 555 400" stroke="#3B82F6" stroke-width="2.5" stroke-dasharray="4 10" fill="none" opacity=".55" marker-end="url(#ah)"/>`;
+  svg.innerHTML=arrows;
+  svg.style.opacity=P(lt,.8,.6);
+  show($('l-f'),lt,fail0+.1,{y:20});show($('l-h'),lt,W(2,'escalates'),{y:20});{const on=P(lt,L(1)-.1,.3)*(1-P(lt,L(2)-.2,.4));$('l-spec').style.boxShadow=`0 0 ${70*on}px rgba(168,85,247,${.6*on})`;$('l-spec').style.borderColor=`rgba(168,85,247,${.45+.55*on})`;}
+  // cycle
+  const start=L(1)-.8,cyc=1.8;const pulse=$('l-pulse');const ns=['l-n1','l-n2','l-n3','l-n4'].map($);
+  ns.forEach(n=>nodeState(n,0));nodeState($('l-f'),0);
+  let spec=1;
+  if(lt>start){
+    const e=lt-start;
+    // before failure: normal cycles; failure occurs in the cycle containing fail0
+    const failCycle=Math.floor((fail0-start)/cyc);
+    let c=Math.floor(e/cyc),ph=(e%cyc)/cyc;
+    spec=Math.min(12,1+c - (c>failCycle?1:0));
+    const pos=[[708,378],[1110,378],[1510,378],[1510,608]];
+    let seg=Math.floor(ph*4),f=(ph*4)%1;
+    let failing=(c==failCycle);
+    if(failing&&seg>=3){ // fail path instead of commit
+      nodeState(ns[2],2);nodeState($('l-f'),2);pulse.style.background='var(--red)';pulse.style.boxShadow='0 0 24px var(--red)';
+      const a=[1510,378],b=[1110,608];pulse.style.left=(a[0]+(b[0]-a[0])*f-13)+'px';pulse.style.top=(a[1]+(b[1]-a[1])*f-13)+'px';
+    } else {
+      pulse.style.background='var(--sky)';pulse.style.boxShadow='0 0 24px var(--sky)';
+      const a=pos[seg],b=pos[Math.min(3,seg+1)];const g=eio(f);
+      if(seg<3){pulse.style.left=(a[0]+(b[0]-a[0])*g-13)+'px';pulse.style.top=(a[1]+(b[1]-a[1])*g-13)+'px'}
+      else{pulse.style.left=(1510-13)+'px';pulse.style.top=(608-13)+'px'}
+      nodeState(ns[seg],seg==3?3:1);
+    }
+    pulse.style.opacity=clamp((lt-start)/.3);
+  } else pulse.style.opacity=0;
+  $('l-count').textContent=spec+' / 12';
+};
+const HL=[[15,700,812,275],[855,65,1145,945],[1850,10,110,42],[565,918,202,50],[540,12,310,40],[1850,10,110,42]];// in 2000-wide space
+R.studio=(lt,sc,{L,W})=>{
+  show($('st-head'),lt,.1);show($('st-shot'),lt,.3,{y:60,s:.96});show($('st-price'),lt,L(4)-.1,{s:.6,y:0});
+  const k=1600/2000;const cues=[[W(2,'Prompt'),0,'Prompt'],[W(2,'preview'),1,'Preview & iterate'],[W(2,'publish'),2,'Publish'],[W(2,'while'),1,'Your cloud environment & repo'],[W(3,'Vibe'),3,'Vibe & Spec modes'],[W(3,'inspect'),4,'Inspect code & infrastructure'],[W(3,'ship'),5,'Fully managed pipeline']];
+  let cur=null;for(const c of cues)if(lt>=c[0]-.1)cur=c;
+  const hl=$('st-hl'),cap=$('st-cap');
+  if(cur&&lt<L(4)-.2){const r=HL[cur[1]];hl.style.left=r[0]*k+'px';hl.style.top=r[1]*k+'px';hl.style.width=r[2]*k+'px';hl.style.height=r[3]*k+'px';hl.style.opacity=P(lt,cues[0][0]-.1,.3);
+    cap.textContent=cur[2];cap.style.opacity=hl.style.opacity;cap.style.left=(960-cap.offsetWidth/2)+'px'}
+  else{const o=cur?1-P(lt,L(4)-.2,.3):0;hl.style.opacity=o;cap.style.opacity=o}
+};
+function drawH(lt,t1,t2,t3,t4){ // connector lines
+  const s=[];const line=(d,p,col='#3B82F6')=>s.push(`<path d="${d}" stroke="${col}" stroke-width="3" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-p}"/>`);
+  const cx=[241,528,815,1102,1389,1676];
+  const p1=P(lt,t1,.8);line('M960 192V212',p1);line(`M241 340V318H1676V340`,p1);line('M960 318V306',p1);
+  const p2=P(lt,t2,.8);line(`M241 510V528H1676V510`,p2);line('M960 528V540',p2);
+  const p3=P(lt,t3,.8);line('M960 596V608M450 620V608H1470V620',p3);line('M450 720V735H1470V720M960 735V760',P(lt,t3+.6,.6));
+  const p4=P(lt,t4,.8);line('M960 818V828M340 840V828H1580V840',p4);
+  // traveling dots
+  let dots='';if(lt>t3+1){const ph=((lt-t3)*0.5)%1;[[960,192+100*ph*3.3]].forEach(()=>{});
+    const ys=[[318,528],[528,620],[735,840]];ys.forEach(([a,b],i)=>{const q=((lt*0.6)+i*.33)%1;dots+=`<circle cx="960" cy="${a+(b-a)*q}" r="7" fill="#A855F7" opacity="${Math.sin(q*Math.PI)}"/>`})}
+  return s.join('')+dots}
+R.harness=(lt,sc,{L,W})=>{
+  show($('h-logo'),lt,.1,{y:-20});
+  const a0=W(0,'multi-harness')-.2;show($('h-eyebrow'),lt,a0,{s:1.2,y:0,d:.8});$('h-eyebrow').style.textShadow=`0 0 ${30*Math.sin(clamp((lt-a0)/2)*Math.PI)}px rgba(120,160,255,.9)`;
+  // phase A: what is a harness
+  const ha=$('h-a');show(ha,lt,L(1)-.1,{y:30});ha.style.opacity*=1-P(lt,L(2)-.5,.45);
+  [...ha.querySelectorAll('.hb,.harr')].forEach((e,i)=>{e.style.opacity=P(lt,L(1)+i*.25,.4)});
+  const B=L(2)-.2;
+  show($('h-r1'),lt,B);
+  const tt=[W(2,'Claude'),W(2,'Codex'),W(2,'Cursor'),W(2,'Gemini'),W(2,'Factory'),W(2,'Goose'),W(2,'Kiro')];
+  harn.forEach((h,i)=>{const el=$('hh'+i);show(el,lt,Math.min(tt[i],B+.2+i*.1)-.15,{y:30,s:.9});const on=P(lt,tt[i]-.1,.3)*(1-P(lt,tt[i]+.9,.5));el.style.boxShadow=`0 0 ${60*on}px rgba(37,99,255,${.7*on})`;el.style.borderColor=`rgba(96,140,255,${.45+.55*on})`});
+  // protocols
+  const pOut=P(lt,L(5)-.4,.5);
+  show($('h-r2'),lt,L(3)-.2);$('h-r2').style.opacity*=1-pOut;
+  const pt=[W(3,'Agent Client'),W(3,'CLI'),W(3,'Model Context')];
+  [...$('h-proto').children].forEach((c,i)=>{show(c,lt,pt[i]-.2,{y:30,s:.9});c.style.opacity*=1-pOut});
+  show($('h-quote'),lt,L(4)-.1,{y:14});$('h-quote').style.opacity*=1-P(lt,L(5)-.3,.4);
+  // workflows + clouds
+  show($('h-r2b'),lt,L(5)-.2);
+  const wt=[W(5,'migrations'),W(5,'development'),W(5,'infrastructure')];
+  [...$('h-wf').children].forEach((c,i)=>show(c,lt,wt[i]-.15,{y:30,s:.9}));
+  show($('h-r3'),lt,W(5,'across')-.3);
+  const ct=[W(5,'Amazon'),W(5,'Microsoft'),W(5,'Google'),W(5,'Oracle')];
+  clouds.forEach((c,i)=>show($('hc'+i),lt,ct[i]-.15,{y:30,s:.9}));
+  $('h-svg').innerHTML=drawH(lt,B,L(3)-.4,L(5)-.2,W(5,'across')-.4);
+  ['h-cap','h-your'].forEach(id=>$(id).style.opacity=0);
+};
+R.audience=(lt,sc,{L,W})=>{
+  show($('a-t'),lt,.1);const t=[W(0,'non-technical'),W(0,'enterprise'),W(0,'agency')];
+  [...$('a-cards').children].forEach((c,i)=>show(c,lt,t[i]-.3,{y:50}));
+  show($('a-s'),lt,W(0,'prototype')-.2);
+};
+function cliffSVG(p,glow){ // p: 0..1 reveal, glow: gap amber glow
+  const o=p;return `<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B2E5C"/><stop offset="1" stop-color="#0B1220"/></linearGradient>
+  <linearGradient id="gap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(245,165,36,${.25*glow})"/><stop offset="1" stop-color="rgba(245,165,36,0)"/></linearGradient></defs>
+  <g opacity="${o}"><path d="M0 640 L730 640 L760 700 L740 800 L770 1080 L0 1080Z" fill="url(#cg)" stroke="#3B82F6" stroke-width="3"/>
+  <path d="M1920 580 L1190 580 L1160 650 L1185 760 L1150 1080 L1920 1080Z" fill="url(#cg)" stroke="#3B82F6" stroke-width="3"/>
+  <rect x="760" y="600" width="400" height="480" fill="url(#gap)"/></g>`}
+R.cliff=(lt,sc,{L,W})=>{
+  const s=$('s-cliff').querySelector('.cliffsvg');
+  const gl=P(lt,W(2,'vibe coding cliff')-.3,.6);s.innerHTML=cliffSVG(P(lt,.0,.8),gl);
+  show($('c-mvp'),lt,W(1,'prototype')-.3,{y:30});show($('c-demo'),lt,W(1,'demos')-.2,{y:10});
+  show($('c-target'),lt,W(1,'production')-.4,{y:30,max:.9});show($('c-prod'),lt,W(1,'production')-.2,{y:10});
+  show($('c-gap'),lt,W(2,'vibe coding cliff')-.2,{y:-20});$('c-q').style.opacity=0;
+  const d0=W(2,'ground')-.4;['c-w1','c-w2','c-w3'].forEach((id,i)=>{show($(id),lt,d0-1.2+i*.35,{y:-60,d:.45});});
+  const fall=P(lt,d0,1.4);['c-w1','c-w2','c-w3'].forEach((id,i)=>{$(id).style.transform+=` translateY(${fall*(120+i*40)}px)`;$(id).style.opacity*=1-.8*fall});
+};
+R.bridge=(lt,sc,{L,W})=>{
+  const s=$('s-bridge').querySelector('.cliffsvg');s.innerHTML=cliffSVG(1,1-P(lt,.2,1));
+  const bp=eio((lt-(W(0,'bridges')-.2))/1.0);$('b-beam').style.transform=`scaleX(${bp})`;$('b-beam').style.opacity=bp>0?1:0;
+  show($('b-logo'),lt,W(0,'bridges')+.5,{y:20});show($('b-eyebrow'),lt,W(0,'bridges')+.8,{y:10});
+  show($('b-h'),lt,L(1)-.1,{y:20});
+  const mv=eio((lt-(L(2)))/1.6);const m=$('b-mvp');m.style.opacity=1;m.style.transform=`translate(${1030*mv}px,${-60*mv - Math.sin(mv*Math.PI)*60}px) scale(${1-.1*Math.sin(mv*Math.PI)})`;m.style.opacity=1-P(lt,L(2)+1.45,.35);
+  show($('b-target'),lt,L(2)+1.3,{s:.94,y:0,d:.5});$('b-ph').style.opacity=.9*(1-P(lt,L(2)+1.3,.4));
+  show($('b-s'),lt,W(2,'migrate')-.3,{y:20});show($('b-p2'),lt,W(2,'build')-.3,{y:10});
+  // target dashed placeholder visible before
+};
+R.organize=(lt,sc,{L,W})=>{
+  show($('o-head'),lt,.1);show($('o-badge'),lt,W(0,'at launch'),{s:.6,y:0});
+  show($('o-shot'),lt,.3,{y:60,s:.96});
+  const z=clamp((lt-.5)/9);$('o-img').style.transform=`scale(${1+.08*z})`;
+  const h=$('o-hl');h.style.opacity=P(lt,W(0,'multi-app')-.1,.4)*(1-P(lt,L(1)+2.8,.4));
+  show($('o-team'),lt,W(1,'team')-.2,{y:30,s:.9});
+};
+R.founder=(lt,sc,{L,W})=>{
+  show($('f-eyebrow'),lt,.1);show($('f-photo'),lt,.2,{x:-60,y:0,d:.8});
+  $('f-photo').style.transform+=` scale(${1+.03*clamp(lt/12)})`;
+  show($('f-name'),lt,W(0,'Dustin')-.2,{x:40,y:0});
+  show($('f-c1'),lt,W(0,'former')-.1,{x:40,y:0});show($('f-c2'),lt,W(0,'Developer')-.3,{x:40,y:0});
+  show($('f-c3'),lt,L(0)+sc.lines[0].d-.2,{y:10});
+  show($('f-pitch'),lt,L(1)-.2,{y:60,s:.9});$('f-pitch').style.transform+=' rotate(3deg)';
+  show($('f-lp'),lt,W(2,'Launchpad')-.1,{y:40});[['fm0',W(1,'re:Invent')],['fm1',W(2,'pivoted')],['fm2',W(2,'Launchpad')],['fm3',W(2,'rebranded')]].forEach(([id,a])=>show($(id),lt,a-.2,{y:14,s:.9}));
+};
+R.cta=(lt,sc,{L,W})=>{
+  const m=$('c-mark'),p=eo(lt/1.2);m.style.opacity=clamp(lt/.4);m.style.transform=`rotate(${-160*(1-p)+lt*6}deg) scale(${.5+.5*p})`;
+  show($('c-h'),lt,.2);
+  [...$('c-pills').children].forEach((c,i)=>show(c,lt,i==0?W(0,'general availability')-.3:W(0,'early users')-.3,{y:20}));
+  show($('c-partner'),lt,L(1)-.2,{y:20});
+  [...$('c-price').children].forEach((c,i)=>show(c,lt,L(1)+1.2+i*.25,{y:30,s:.92}));
+  show($('c-note'),lt,L(2)-.2,{y:30});
+  show($('c-btn'),lt,W(3,'Join')-.3,{s:.85,y:0});const pul=lt>W(3,'Join')+.8?1+.025*Math.sin((lt-L(3))*3):1;$('c-btn').style.transform+=` scale(${pul})`;
+  show($('c-lp'),lt,W(3,'Join')+.8);show($('c-disc'),lt,W(3,'Join')+1.2);
+};
+const PRIN=[["01","Ownership","🔑","Your code and cloud resources, in a dedicated environment and repo you control. Agents use time-bound, scoped credentials."],
+["02","Structure","🧱","Git, infrastructure as code (Terraform), repeatable pipelines, steering guidance, and spec-driven workflows."],
+["03","Scalability","📈","Serverless-first by default: pay for real usage, and evolve the architecture as you grow."],
+["04","Security","🛡","Managed identity, network boundaries, encryption, least privilege, and auditable logs: default, not an upgrade."],
+["05","Reliability","♻","Managed pipelines, automated validation, and clean rollbacks. Fast, boring, repeatable deploys."],
+["06","Extensibility","🧩","Multi-source · multi-target · multi-harness. A choice at every major boundary."]];
+$('pr-grid').innerHTML=PRIN.map((p,i)=>`<div class="card pc" id="pc${i}"><div style="display:flex;align-items:center;gap:16px"><span class="pnum">${p[0]}</span><span style="font-size:40px">${p[2]}</span><span style="font-weight:800;font-size:36px">${p[1]}</span></div><div class="pdesc">${p[3]}</div></div>`).join('');
+const CODE3=[["// your app outgrew the prototype\n","c"],["try","k"],[" {\n  yourApp.","p"],["shipFast","f"],["();\n} ","p"],["catch","k"],[" (OutgrewThePrototype e) {\n  ","p"],["rethrow","f"],["(yourApp)\n    .","p"],["onto","f"],["(dedicatedCloud);\n  ","p"],["// AWS · GCP · Azure · OCI\n","c"],["}","p"]];
+const CODE3LEN=CODE3.reduce((a,t)=>a+t[0].length,0);
+function code3(n){let out='',r=n;for(const[t,c]of CODE3){if(r<=0)break;const s=t.slice(0,r);r-=t.length;out+=`<span class="${c}">${s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`}return out+(n<CODE3LEN?'<span style="background:#60A5FA">&nbsp;</span>':'')}
+R.intro=(lt,sc,{L,W})=>{
+  const m=$('i-mark'),p=eo(lt/1.3);m.style.opacity=clamp(lt/.4)*(1-P(lt,1.4,.4));m.style.transform=`rotate(${-200*(1-p)}deg) scale(${.3+.7*p})`;
+  show($('i-chip'),lt,L(0)-.2,{y:-20});show($('i-term'),lt,W(0,'vibe coding')-.3,{s:.8,y:0,d:.7});
+  show($('i-dict'),lt,L(1)-.1,{y:40});
+  show($('i-prompt'),lt,L(2)-.2,{x:-40,y:0});const txt='“A booking app for my dog-training business…”';
+  $('i-ptext').textContent=txt.slice(0,Math.floor(clamp((lt-L(2))/2.2)*txt.length));
+  show($('i-arrow'),lt,W(2,'watch')-.1,{x:-20,y:0});show($('i-app'),lt,W(2,'hours')-.4,{s:.8,y:0});
+};
+R.stats=(lt,sc,{L,W})=>{
+  show($('st-h'),lt,.1);
+  [0,1,2,3].forEach(i=>{const el=$('sa'+i);const a=L(i+1)-.2;show(el,lt,a,{y:50});const sp=el.querySelector('[data-v]');sp.textContent=Math.round(+sp.dataset.v*eo((lt-a)/1.2));
+    const on=P(lt,a,.3)*(1-P(lt,L(i+2)-.3,.5));el.style.borderColor=`rgba(96,140,255,${.45+.55*on})`;el.style.boxShadow=`0 0 ${70*on}px rgba(37,99,255,${.5*on})`});
+  show($('st-mil'),lt,L(5)-.2,{y:40});
+  const pr=clamp((lt-L(5))/2.5);let d='M0 140';for(let x=0;x<=420*pr;x+=6){const y=140-130*Math.pow(x/420,2.2)-6*Math.sin(x/17);d+=` L${x} ${y}`}
+  $('st-chart').innerHTML=`<path d="${d}" stroke="url(#sg)" stroke-width="5" fill="none" stroke-linecap="round"/><defs><linearGradient id="sg"><stop offset="0" stop-color="#2563FF"/><stop offset="1" stop-color="#A855F7"/></linearGradient></defs>`;
+  show($('st-src'),lt,L(1),{y:0,max:1});
+};
+R.questions=(lt,sc,{L,W})=>{
+  show($('q-h'),lt,.1);
+  [0,1,2,3,4].forEach(i=>{const el=$('qq'+i);show(el,lt,L(i+1)-.2,{x:-50,y:0});const on=P(lt,L(i+1)-.2,.3)*(1-P(lt,L(i+2)-.2,.4));el.style.borderColor=`rgba(96,140,255,${.4+.6*on})`;el.style.boxShadow=`0 0 ${50*on}px rgba(37,99,255,${.45*on})`});
+  const a=W(6,'close to half')-.3;show($('q-risk'),lt,a,{s:.85,y:0,d:.6});$('q-num').textContent=Math.round(50*eo((lt-a)/1.2));
+};
+R.paths=(lt,sc,{L,W})=>{
+  show($('pa-h'),lt,.1);show($('pa-table'),lt,.3,{y:30});
+  const col=(k,a)=>{document.querySelectorAll('#s-paths .c'+k).forEach((e,j)=>{e.style.opacity=P(lt,a+j*.08,.4)});$('ph'+k).style.opacity=P(lt,a-.1,.4)};
+  col(0,W(1,'yourself')-.3);col(1,W(2,'hire')-.3);col(2,L(3)-.2);
+  const dim=P(lt,L(3)-.2,.5);document.querySelectorAll('#s-paths .c0,#s-paths .c1').forEach(e=>e.style.opacity*=1-.45*dim);
+  show($('pa-hl'),lt,L(3)-.1,{s:.96,y:0});
+};
+R.name=(lt,sc,{L,W})=>{
+  show($('n-h'),lt,.1);show($('n-win'),lt,.3,{x:-50,y:0});
+  const n=Math.floor(clamp((lt-.6)/(L(2)-.8))*CODE3LEN);$('n-code').innerHTML=code3(n);
+  ['nf0','nf1','nf2'].forEach((id,i)=>show($(id),lt,[W(1,'error'),W(1,'catch'),W(1,'rethrow it')][i]-.2,{x:40,y:0}));
+  const hl=$('n-hlline');const which=lt<W(2,'rethrow it')-.2?(lt<W(2,'catch it')-.2?-1:0):1;
+  if(which<0){hl.style.opacity=0}else{hl.style.opacity=1;hl.style.top=(which==0?44+30+49.6*3:44+30+49.6*4)+'px';hl.style.height=(which==0?54:104)+'px'}
+  show($('n-mission'),lt,L(3)-.1,{y:20});
+};
+R.principles=(lt,sc,{L,W})=>{
+  show($('pr-h'),lt,.1);
+  PRIN.forEach((p,i)=>{const el=$('pc'+i);const a=Math.min(L(i+2)-.3,L(1)+.3+i*.15);show(el,lt,a,{y:40,max:1});
+    const act=P(lt,L(i+2)-.3,.35)*(i<5?1-P(lt,L(i+3)-.3,.4):1);
+    el.style.borderColor=`rgba(96,140,255,${.35+.65*act})`;el.style.boxShadow=`0 0 ${70*act}px rgba(37,99,255,${.5*act})`;
+    el.style.opacity*= (lt>L(2)-.3 ? .45+.55*Math.max(act, lt>L(7)+1.5?1:0):1);
+    el.querySelector('.pdesc').style.opacity=.55+.45*act;});
+  show($('pr-note'),lt,L(1)+.2,{y:10});
+};
+
+const SC=TL.scenes.map(s=>({...s,el:$('s-'+s.id),h:mk(s)}));
+window.render=function(t){
+  $('g1').style.left=(200+180*Math.sin(t*.13))+'px';$('g1').style.top=(-300+120*Math.cos(t*.11))+'px';
+  $('g2').style.left=(1100+160*Math.cos(t*.09))+'px';$('g2').style.top=(500+140*Math.sin(t*.12))+'px';
+  $('grid').style.transform=`translate(${(t*6)%32}px,${(t*3)%32}px)`;
+  const X=.35;
+  for(const s of SC){const lt=t-s.start;const v=Math.min(clamp((lt+X)/(2*X)),clamp((s.dur+X-lt)/(2*X)));
+    const first=s===SC[0],last=s===SC[SC.length-1];
+    let vis=v; if(first&&lt<s.dur)vis=Math.min(1,clamp((s.dur+X-lt)/(2*X))); if(last&&lt>0)vis=Math.min(1,clamp((lt+X)/(2*X)));
+    if(vis<=0){s.el.style.display='none';continue}
+    s.el.style.display='block';s.el.style.opacity=vis;R[s.id](lt,s,s.h)}
+  // global fade in/out
+  $('stage').style.opacity=Math.min(clamp(t/.6),clamp((TL.total-t)/1.2));
+};
+window.ready=Promise.all([document.fonts.ready,...[...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))]);
+render(0);
+</script>
+</body></html>

@@ -1,0 +1,37 @@
+TITLE:
+Rethrow AI: Bridging the Vibe Coding Cliff (Full Platform Overview)
+
+DESCRIPTION:
+Vibe coding made building software radically accessible, but there's still a wide gap between a prototype that demos well and a workload that can run in production. We call it the vibe coding cliff.
+
+Rethrow helps builders move beyond vibe coding without becoming a cloud engineer. Migrate an existing app from platforms like Lovable, Replit, or Base44 with agent-orchestrated migrations, or build something new in Rethrow Studio, all on dedicated cloud infrastructure you own across Amazon Web Services, Google Cloud, Microsoft Azure, and Oracle Cloud Infrastructure.
+
+Bring your own agent (Claude Code, Codex, Cursor, Gemini CLI, Factory Droid, Goose, Kiro, and more). Rethrow's multi-harness control plane uses emerging agent protocols like the Agent Client Protocol (ACP), CLI streaming, and the Model Context Protocol (MCP) to deliver one uniform experience.
+
+Planned pricing: $500 one-time migration · Rethrow Studio $100/user/month · bring your own agent. Pricing, features, and agent availability are subject to change before launch.
+
+Targeting general availability at the start of 2027. Join the waitlist: https://rethrow.ai
+Software resellers, startup communities, and development agencies: ask us about early access and volume-based pricing.
+
+Chapters:
+0:00 What is vibe coding?
+0:25 The rise of vibe coding
+0:59 The vibe coding cliff
+1:21 Beyond the demo
+1:55 Three paths to production
+2:16 Why the name Rethrow?
+2:42 Rethrow bridges the gap
+2:57 Migrate an existing app
+3:34 One spec at a time
+3:56 Build in Rethrow Studio
+4:27 Multi-harness control plane
+5:24 Six guiding principles
+6:31 Multi-user, multi-app workspaces
+6:43 Who it's for
+6:56 Meet the founder
+7:25 Launch, pricing & waitlist
+
+Statistics are approximate figures from industry surveys and analyses cited in Rethrow's "Introducing Rethrow" blog post. Third-party names and logos are trademarks of their respective owners and indicate compatibility, not endorsement.
+
+TAGS:
+Rethrow AI, vibe coding, vibe coding cliff, Andrej Karpathy, Lovable, Replit, Base44, cloud migration, AWS, Google Cloud, Azure, Oracle Cloud, AI agents, agent harness, multi-harness control plane, Agent Client Protocol, Model Context Protocol, Claude Code, Codex, Cursor, Gemini CLI, Factory Droid, Goose, Kiro, Launchpad Tech Ventures

@@ -1,0 +1,464 @@
+1
+00:00:01,800 --> 00:00:03,283
+In February 2025,
+
+2
+00:00:03,133 --> 00:00:07,283
+AI researcher and OpenAI co-founder Andrej Karpathy
+
+3
+00:00:07,133 --> 00:00:10,891
+gave a name to a new way of building software:
+
+4
+00:00:10,741 --> 00:00:11,832
+vibe coding.
+
+5
+00:00:12,133 --> 00:00:15,896
+Merriam-Webster now defines it as the practice of using an
+
+6
+00:00:15,746 --> 00:00:19,446
+artificial intelligence system to generate computer code.
+
+7
+00:00:19,746 --> 00:00:21,963
+Describe what you want in plain language,
+
+8
+00:00:21,813 --> 00:00:25,138
+and watch a working app take shape in hours, instead of months.
+
+9
+00:00:26,489 --> 00:00:29,801
+And vibe coding is no longer a niche experiment.
+
+10
+00:00:30,102 --> 00:00:34,256
+Around 90% of developers now use AI coding tools.
+
+11
+00:00:34,557 --> 00:00:38,073
+Roughly 41% of new code is AI-generated.
+
+12
+00:00:38,374 --> 00:00:41,424
+About 63% of people building with these tools have
+
+13
+00:00:41,274 --> 00:00:44,382
+no professional background in software engineering.
+
+14
+00:00:44,682 --> 00:00:47,611
+In Y Combinator's Winter 2025 batch,
+
+15
+00:00:47,461 --> 00:00:53,322
+a quarter of startups ran on codebases that were roughly 95% AI-generated.
+
+16
+00:00:53,623 --> 00:00:58,670
+Tens of millions of AI-built apps now exist, and the pace is accelerating.
+
+17
+00:01:00,220 --> 00:01:02,750
+But building a first version and running a
+
+18
+00:01:02,600 --> 00:01:05,472
+production system are two very different things.
+
+19
+00:01:05,772 --> 00:01:09,152
+There's a wide gap between a prototype that demos well,
+
+20
+00:01:09,002 --> 00:01:11,620
+and a workload that can run in production.
+
+21
+00:01:11,920 --> 00:01:13,904
+We call it the vibe coding cliff:
+
+22
+00:01:13,754 --> 00:01:17,406
+the moment the excitement of watching your app take shape gives
+
+23
+00:01:17,256 --> 00:01:21,075
+way to the feeling that the ground has dropped out from under you.
+
+24
+00:01:22,525 --> 00:01:26,228
+Suddenly, you face questions that never mattered in a demo.
+
+25
+00:01:26,528 --> 00:01:30,368
+Who owns the infrastructure, and where does the source code live?
+
+26
+00:01:30,667 --> 00:01:33,928
+How is the app deployed, and how do you roll back?
+
+27
+00:01:34,228 --> 00:01:38,468
+How do you control networking, identity, encryption, and access?
+
+28
+00:01:38,768 --> 00:01:43,023
+What happens when traffic spikes, or you hit a platform rate limit?
+
+29
+00:01:43,323 --> 00:01:47,054
+And what happens if you want to leave the platform you started on?
+
+30
+00:01:47,354 --> 00:01:50,143
+The stakes are real. By some measures,
+
+31
+00:01:49,993 --> 00:01:54,590
+close to half of AI-generated code fails basic security testing.
+
+32
+00:01:56,340 --> 00:02:01,450
+Today, a builder who outgrows a vibe coding platform has two options.
+
+33
+00:02:01,750 --> 00:02:06,897
+Do it yourself, and spend weeks or months learning cloud, DevOps, and security.
+
+34
+00:02:07,197 --> 00:02:12,768
+Or hire a developer, and take on the cost of hiring, scoping, and managing the work.
+
+35
+00:02:13,068 --> 00:02:15,597
+Rethrow is building a third path.
+
+36
+00:02:17,146 --> 00:02:20,009
+Rethrow is named after a programming concept.
+
+37
+00:02:20,309 --> 00:02:23,738
+When software hits an error, code can catch it, handle it,
+
+38
+00:02:23,588 --> 00:02:27,752
+and rethrow it, so it keeps moving forward instead of silently failing.
+
+39
+00:02:28,052 --> 00:02:32,758
+Your app is the same. When it outgrows the prototype, you don't throw it away.
+
+40
+00:02:32,608 --> 00:02:36,555
+You catch it, and rethrow it onto dedicated cloud infrastructure.
+
+41
+00:02:36,855 --> 00:02:40,836
+Our mission is simple: build fast, and own what comes next.
+
+42
+00:02:42,885 --> 00:02:45,389
+Rethrow bridges the vibe coding cliff.
+
+43
+00:02:45,688 --> 00:02:49,741
+Move beyond vibe coding, without becoming a cloud engineer.
+
+44
+00:02:50,042 --> 00:02:53,301
+At launch, there will be two ways to use Rethrow:
+
+45
+00:02:53,151 --> 00:02:56,347
+migrate an existing app, or build something new.
+
+46
+00:02:57,796 --> 00:03:02,051
+To migrate, connect an app built on a platform like Lovable,
+
+47
+00:03:01,901 --> 00:03:04,377
+Replit, or Base44, through GitHub.
+
+48
+00:03:04,676 --> 00:03:09,075
+Rethrow's migration agents assess your app, understand its architecture,
+
+49
+00:03:08,925 --> 00:03:12,379
+and design a target environment on your preferred cloud.
+
+50
+00:03:12,680 --> 00:03:16,974
+Then they write a spec-driven plan, refactor what needs to change,
+
+51
+00:03:16,824 --> 00:03:21,558
+deploy, and validate the result, while your original app stays untouched.
+
+52
+00:03:21,858 --> 00:03:26,183
+The goal: turn a highly manual cloud migration into a repeatable,
+
+53
+00:03:26,033 --> 00:03:29,781
+agent-orchestrated workflow, completed in under an hour.
+
+54
+00:03:30,080 --> 00:03:33,885
+Migrations will be a one-time price of $500.
+
+55
+00:03:35,335 --> 00:03:38,949
+Behind the scenes, agents work one spec at a time.
+
+56
+00:03:39,249 --> 00:03:42,283
+Each spec is a single, logical unit of work,
+
+57
+00:03:42,133 --> 00:03:45,232
+with its own requirements, design, and tasks.
+
+58
+00:03:45,532 --> 00:03:50,682
+The agent writes code, deploys, and verifies its work before moving on.
+
+59
+00:03:50,532 --> 00:03:55,400
+If a check fails, it retries, and escalates to a human when needed.
+
+60
+00:03:56,849 --> 00:03:59,354
+To build, there's Rethrow Studio.
+
+61
+00:03:59,655 --> 00:04:03,694
+Keep developing after a migration, or start something completely new,
+
+62
+00:04:03,544 --> 00:04:07,301
+in a browser interface that feels like the vibe coding you know.
+
+63
+00:04:07,602 --> 00:04:10,162
+Prompt, preview, iterate, and publish,
+
+64
+00:04:10,012 --> 00:04:12,700
+while your app runs in a dedicated cloud
+
+65
+00:04:12,550 --> 00:04:15,618
+environment and source repository you control.
+
+66
+00:04:15,918 --> 00:04:19,800
+Switch between Vibe and Spec modes, inspect your code and your cloud,
+
+67
+00:04:19,650 --> 00:04:22,668
+and ship through a fully managed deployment pipeline.
+
+68
+00:04:22,968 --> 00:04:26,459
+Studio will be $100 per user, per month.
+
+69
+00:04:28,009 --> 00:04:32,640
+Under the hood, Rethrow Studio runs on a multi-harness control plane.
+
+70
+00:04:32,940 --> 00:04:37,126
+Most AI development tools sit on top of an agent harness:
+
+71
+00:04:36,976 --> 00:04:42,932
+the runtime that gives a model access to files, repositories, commands, and tools.
+
+72
+00:04:43,233 --> 00:04:48,083
+With Rethrow, you bring your own agent: Claude Code, Codex,
+
+73
+00:04:47,933 --> 00:04:52,624
+Cursor, Gemini CLI, Factory Droid, Goose, Kiro, and more.
+
+74
+00:04:52,925 --> 00:04:55,596
+Rethrow uses emerging agent protocols,
+
+75
+00:04:55,446 --> 00:04:58,649
+like the Agent Client Protocol, CLI streaming,
+
+76
+00:04:58,499 --> 00:05:02,963
+and the Model Context Protocol, to create one uniform experience,
+
+77
+00:05:02,813 --> 00:05:05,285
+no matter which provider you bring.
+
+78
+00:05:05,586 --> 00:05:10,706
+Rethrow should remain consistent, even when the underlying agent changes.
+
+79
+00:05:11,007 --> 00:05:12,866
+It manages every workflow,
+
+80
+00:05:12,716 --> 00:05:16,877
+from migrations and development to infrastructure operations,
+
+81
+00:05:16,727 --> 00:05:19,573
+across Amazon Web Services, Google Cloud,
+
+82
+00:05:19,423 --> 00:05:22,795
+Microsoft Azure, and Oracle Cloud Infrastructure.
+
+83
+00:05:24,846 --> 00:05:28,264
+We're building Rethrow around six guiding principles.
+
+84
+00:05:28,564 --> 00:05:32,012
+The first five make an application production-ready.
+
+85
+00:05:31,862 --> 00:05:36,007
+The sixth keeps it portable, and ready for whatever comes next.
+
+86
+00:05:36,307 --> 00:05:40,092
+One: Ownership. Everything Rethrow produces belongs to you,
+
+87
+00:05:39,942 --> 00:05:44,713
+in a dedicated cloud environment and source repository within your control.
+
+88
+00:05:45,013 --> 00:05:49,532
+Two: Structure. Version-controlled source, infrastructure as code,
+
+89
+00:05:49,382 --> 00:05:54,167
+repeatable pipelines, and a spec-driven workflow, all managed for you.
+
+90
+00:05:54,466 --> 00:05:59,692
+Three: Scalability. Cost-efficient, serverless-first architecture by default,
+
+91
+00:05:59,542 --> 00:06:03,581
+so you pay for real usage, with room to evolve as you grow.
+
+92
+00:06:03,882 --> 00:06:08,194
+Four: Security. Managed identity, network boundaries, encryption,
+
+93
+00:06:08,044 --> 00:06:13,444
+least-privilege permissions, and logs you can audit, as a default, not an upgrade.
+
+94
+00:06:13,745 --> 00:06:17,680
+Five: Reliability. Managed pipelines, automated validation,
+
+95
+00:06:17,530 --> 00:06:22,108
+and clean rollbacks, so deployments are fast, boring, and repeatable.
+
+96
+00:06:22,408 --> 00:06:26,008
+And six: Extensibility. Multi-source, multi-target,
+
+97
+00:06:25,858 --> 00:06:30,338
+and multi-harness, so you have a choice at every major boundary.
+
+98
+00:06:32,088 --> 00:06:37,540
+At launch, Rethrow will also support multi-user, multi-app workspaces.
+
+99
+00:06:37,841 --> 00:06:42,971
+Bring your whole team, and manage every app, migration, and build from one place.
+
+100
+00:06:44,420 --> 00:06:49,315
+Whether you're a non-technical founder, an enterprise innovation team,
+
+101
+00:06:49,165 --> 00:06:51,754
+or an agency delivering client apps,
+
+102
+00:06:51,604 --> 00:06:55,550
+Rethrow is your path from prototype to durable software.
+
+103
+00:06:57,100 --> 00:06:59,494
+Rethrow was founded by Dustin Ellis,
+
+104
+00:06:59,344 --> 00:07:02,986
+a former Amazon Web Services Senior Solutions Architect,
+
+105
+00:07:02,836 --> 00:07:05,978
+and an Amazon Web Services Developer Ambassador.
+
+106
+00:07:06,278 --> 00:07:11,500
+After presenting at re:Invent in December 2025, he left to build full-time.
+
+107
+00:07:11,802 --> 00:07:16,152
+In 2026, the company pivoted to agent-orchestrated migrations,
+
+108
+00:07:16,002 --> 00:07:20,014
+completed the Launchpad Tech Ventures summer accelerator,
+
+109
+00:07:19,864 --> 00:07:24,485
+joined Launchpad Ignite, and rebranded from Vibe2Cloud to Rethrow.
+
+110
+00:07:26,136 --> 00:07:30,663
+Rethrow is targeting general availability at the start of 2027,
+
+111
+00:07:30,513 --> 00:07:33,443
+with early users onboarding before then.
+
+112
+00:07:33,743 --> 00:07:38,482
+If you're a software reseller, startup community, or development agency,
+
+113
+00:07:38,332 --> 00:07:42,435
+we'd love to talk about early access and volume-based pricing.
+
+114
+00:07:42,735 --> 00:07:47,923
+Pricing, features, and agent availability are all subject to change before launch.
+
+115
+00:07:47,774 --> 00:07:52,962
+Until then, our team is heads-down, building the best possible experience for you.
+
+116
+00:07:53,263 --> 00:07:59,567
+Build fast, and own what comes next. Join the waitlist at rethrow.ai.
+
