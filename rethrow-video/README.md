@@ -32,9 +32,13 @@ ffmpeg -f concat -safe 0 -i list.txt -i v3/mix_norm.wav -map 0:v -map 1:a -c:v l
 Requirements: Node with `playwright` (Chromium), ffmpeg with libx264, and Python with numpy, scipy and soundfile (plus faster-whisper for QA). In sandboxed environments, add the proxy CA to Chromium's NSS store (`certutil -A -d sql:$HOME/.pki/nssdb -n proxy -t "C,," -i <ca.crt>`). `mkdir -p segs` before rendering.
 
 ## Re-voicing with ElevenLabs (next step)
-- Read the key from the `ELEVENLABS_API_KEY` environment variable, and look up the voice ID for the custom voice named **"Dustin"** via `GET /v1/voices`.
-- Generate each line in `v3/script.json` (use the spoken override where there is one) and save it as `v3/lines/<scene>_<nn>.flac`.
-- Keep the pronunciation rules: Rethrow = "re-THROW"; Andrej = "On-dray"; Kiro = "KEER-oh"; spell out acronyms (Amazon Web Services, Agent Client Protocol…) except AI and CLI; years and prices in words.
-- Check with `v3/prep_lines.py` (point it at the new files), then run the pipeline above. Changing line lengths only shifts `v3/timeline.js`; the animations re-cue automatically.
+`v3/tts_eleven.py` does this. It reads the key from `ELEVENLABS_API_KEY` (or `ElevenLabs`, the name used in the cloud environment; environment variables only reach sessions started after they are added). It then finds the custom voice named **"Dustin"** via `GET /v1/voices` and voices each line in `v3/script.json`, using the spoken override where there is one.
+```bash
+python3 v3/tts_eleven.py                     # raw lines -> v3/lines_el/<scene>_<nn>.flac (ONLY=key,key to redo)
+python3 v3/prep_lines.py v3/lines_el v3/lines_trim   # trim silence + Whisper check; review FLAGGED lines
+cp v3/lines_trim/*.flac v3/lines/            # then run the pipeline above
+```
+- The pronunciation rules live in the `RESPELL` map in `tts_eleven.py`: Rethrow = "Re-throw"; Andrej = "On-dray"; Kiro = "Keer-oh"; Base44 = "Base forty-four"; Replit = "Rep-lit". Acronyms are spelled out in `script.json` (Amazon Web Services, Agent Client Protocol…) except AI and CLI. Years and prices are written as words.
+- Changing line lengths only shifts `v3/timeline.js`; the animations re-cue automatically.
 
 Pricing, features and agent availability shown in the video are subject to change before launch.
