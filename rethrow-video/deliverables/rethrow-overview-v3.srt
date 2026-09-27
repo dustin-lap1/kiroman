@@ -267,197 +267,229 @@ Switch between Vibe and Spec modes, inspect your code and your cloud,
 and ship through a fully managed deployment pipeline.
 
 68
-00:03:43,656 --> 00:03:46,527
-Studio will be $100 per user, per month.
+00:03:43,656 --> 00:03:44,736
+Getting started will be simple.
 
 69
-00:03:48,227 --> 00:03:51,642
-Under the hood, Rethrow Studio runs on a multi-harness control plane.
+00:03:44,586 --> 00:03:48,096
+Connect your coding agent with an API key or OAuth,
 
 70
-00:03:52,092 --> 00:03:55,692
-Most AI development tools sit on top of an agent harness:
+00:03:47,946 --> 00:03:50,818
+and Studio runs on the agent subscription you already have.
 
 71
-00:03:55,542 --> 00:03:59,897
-the runtime that gives a model access to files, repositories, commands, and tools.
+00:03:51,268 --> 00:03:54,008
+Migrations, development, and infrastructure operations,
 
 72
-00:04:00,347 --> 00:04:03,707
-With Rethrow, you bring your own agent: Claude Code, Codex,
+00:03:53,858 --> 00:03:55,421
+all from one interface.
 
 73
-00:04:03,557 --> 00:04:07,460
-Cursor, Gemini CLI, Factory Droid, Goose, Kiro, and more.
+00:03:55,871 --> 00:03:56,831
+Have more than one subscription?
 
 74
-00:04:07,910 --> 00:04:10,070
-Rethrow uses emerging agent protocols,
+00:03:56,681 --> 00:03:59,571
+Bring multiple agent harnesses into the same workspace,
 
 75
-00:04:09,920 --> 00:04:12,870
-like the Agent Client Protocol, CLI streaming,
+00:03:59,421 --> 00:04:01,320
+and switch between them as you work.
 
 76
-00:04:12,720 --> 00:04:16,690
-and the Model Context Protocol, to create one uniform experience,
+00:04:01,769 --> 00:04:04,141
+Studio will be $50 per user, per month.
 
 77
-00:04:16,540 --> 00:04:18,152
-no matter which provider you bring.
+00:04:05,841 --> 00:04:09,256
+Under the hood, Rethrow Studio runs on a multi-harness control plane.
 
 78
-00:04:18,602 --> 00:04:22,537
-Rethrow should remain consistent, even when the underlying agent changes.
+00:04:09,706 --> 00:04:13,306
+Most AI development tools sit on top of an agent harness:
 
 79
-00:04:22,987 --> 00:04:24,567
-It manages every workflow,
+00:04:13,156 --> 00:04:17,511
+the runtime that gives a model access to files, repositories, commands, and tools.
 
 80
-00:04:24,417 --> 00:04:27,687
-from migrations and development to infrastructure operations,
+00:04:17,961 --> 00:04:21,321
+With Rethrow, you bring your own agent: Claude Code, Codex,
 
 81
-00:04:27,537 --> 00:04:30,327
-across Amazon Web Services, Google Cloud,
+00:04:21,171 --> 00:04:25,074
+Cursor, Gemini CLI, Factory Droid, Goose, Kiro, and more.
 
 82
-00:04:30,177 --> 00:04:32,541
-Microsoft Azure, and Oracle Cloud Infrastructure.
+00:04:25,524 --> 00:04:27,684
+Rethrow uses emerging agent protocols,
 
 83
-00:04:34,740 --> 00:04:37,452
-We're building Rethrow around six guiding principles.
+00:04:27,534 --> 00:04:30,484
+like the Agent Client Protocol, CLI streaming,
 
 84
-00:04:37,902 --> 00:04:39,842
-The first five make an application production-ready.
+00:04:30,334 --> 00:04:34,304
+and the Model Context Protocol, to create one uniform experience,
 
 85
-00:04:39,692 --> 00:04:43,193
-The sixth keeps it portable, and ready for whatever comes next.
+00:04:34,154 --> 00:04:35,766
+no matter which provider you bring.
 
 86
-00:04:43,643 --> 00:04:47,523
-One: Ownership. Everything Rethrow produces belongs to you,
+00:04:36,216 --> 00:04:40,151
+Rethrow should remain consistent, even when the underlying agent changes.
 
 87
-00:04:47,373 --> 00:04:50,935
-in a dedicated cloud environment and source repository within your control.
+00:04:40,601 --> 00:04:42,181
+It manages every workflow,
 
 88
-00:04:51,385 --> 00:04:54,765
-Two: Structure. Version-controlled source, infrastructure as code,
+00:04:42,031 --> 00:04:45,301
+from migrations and development to infrastructure operations,
 
 89
-00:04:54,615 --> 00:04:58,613
-repeatable pipelines, and a spec-driven workflow, all managed for you.
+00:04:45,151 --> 00:04:47,941
+across Amazon Web Services, Google Cloud,
 
 90
-00:04:59,062 --> 00:05:03,482
-Three: Scalability. Cost-efficient, serverless-first architecture by default,
+00:04:47,791 --> 00:04:50,155
+Microsoft Azure, and Oracle Cloud Infrastructure.
 
 91
-00:05:03,332 --> 00:05:06,632
-so you pay for real usage, with room to evolve as you grow.
+00:04:52,355 --> 00:04:55,067
+We're building Rethrow around six guiding principles.
 
 92
-00:05:07,083 --> 00:05:11,023
-Four: Security. Managed identity, network boundaries, encryption,
+00:04:55,517 --> 00:04:57,457
+The first five make an application production-ready.
 
 93
-00:05:10,873 --> 00:05:15,271
-least-privilege permissions, and logs you can audit, as a default, not an upgrade.
+00:04:57,307 --> 00:05:00,808
+The sixth keeps it portable, and ready for whatever comes next.
 
 94
-00:05:15,721 --> 00:05:19,621
-Five: Reliability. Managed pipelines, automated validation,
+00:05:01,258 --> 00:05:05,138
+One: Ownership. Everything Rethrow produces belongs to you,
 
 95
-00:05:19,471 --> 00:05:23,219
-and clean rollbacks, so deployments are fast, boring, and repeatable.
+00:05:04,988 --> 00:05:08,550
+in a dedicated cloud environment and source repository within your control.
 
 96
-00:05:23,668 --> 00:05:26,368
-And six: Extensibility. Multi-source, multi-target,
+00:05:09,000 --> 00:05:12,380
+Two: Structure. Version-controlled source, infrastructure as code,
 
 97
-00:05:26,218 --> 00:05:29,081
-and multi-harness, so you have a choice at every major boundary.
+00:05:12,230 --> 00:05:16,228
+repeatable pipelines, and a spec-driven workflow, all managed for you.
 
 98
-00:05:30,981 --> 00:05:35,191
-At launch, Rethrow will also support multi-user, multi-app workspaces.
+00:05:16,677 --> 00:05:21,097
+Three: Scalability. Cost-efficient, serverless-first architecture by default,
 
 99
-00:05:35,641 --> 00:05:39,770
-Bring your whole team, and manage every app, migration, and build from one place.
+00:05:20,947 --> 00:05:24,247
+so you pay for real usage, with room to evolve as you grow.
 
 100
-00:05:41,371 --> 00:05:44,491
-Whether you're a non-technical founder, an enterprise innovation team,
+00:05:24,698 --> 00:05:28,638
+Four: Security. Managed identity, network boundaries, encryption,
 
 101
-00:05:44,341 --> 00:05:46,511
-or an agency delivering client apps,
+00:05:28,488 --> 00:05:32,886
+least-privilege permissions, and logs you can audit, as a default, not an upgrade.
 
 102
-00:05:46,361 --> 00:05:50,572
-Rethrow is your path from prototype to durable software.
+00:05:33,336 --> 00:05:37,236
+Five: Reliability. Managed pipelines, automated validation,
 
 103
-00:05:52,272 --> 00:05:54,792
-Rethrow was founded by Dustin Ellis,
+00:05:37,086 --> 00:05:40,834
+and clean rollbacks, so deployments are fast, boring, and repeatable.
 
 104
-00:05:54,642 --> 00:05:58,132
-a former Amazon Web Services Senior Solutions Architect,
+00:05:41,283 --> 00:05:43,983
+And six: Extensibility. Multi-source, multi-target,
 
 105
-00:05:57,982 --> 00:06:00,863
-and an Amazon Web Services Developer Ambassador.
+00:05:43,833 --> 00:05:46,696
+and multi-harness, so you have a choice at every major boundary.
 
 106
-00:06:01,313 --> 00:06:05,436
-After presenting at re:Invent in December 2025, he left to build full-time.
+00:05:48,596 --> 00:05:52,806
+At launch, Rethrow will also support multi-user, multi-app workspaces.
 
 107
-00:06:05,886 --> 00:06:09,766
-In 2026, the company pivoted to agent-orchestrated migrations,
+00:05:53,256 --> 00:05:57,385
+Bring your whole team, and manage every app, migration, and build from one place.
 
 108
-00:06:09,616 --> 00:06:12,226
-completed the Launchpad Tech Ventures summer accelerator,
+00:05:58,986 --> 00:06:02,106
+Whether you're a non-technical founder, an enterprise innovation team,
 
 109
-00:06:12,076 --> 00:06:15,822
-joined Launchpad Ignite, and rebranded from Vibe2Cloud to Rethrow.
+00:06:01,956 --> 00:06:04,126
+or an agency delivering client apps,
 
 110
-00:06:17,622 --> 00:06:21,462
-Rethrow is targeting general availability at the start of 2027,
+00:06:03,976 --> 00:06:08,187
+Rethrow is your path from prototype to durable software.
 
 111
-00:06:21,312 --> 00:06:23,450
-with early users onboarding before then.
+00:06:09,887 --> 00:06:12,407
+Rethrow was founded by Dustin Ellis,
 
 112
-00:06:23,900 --> 00:06:27,320
-If you're a software reseller, startup community, or development agency,
+00:06:12,257 --> 00:06:15,747
+a former Amazon Web Services Senior Solutions Architect,
 
 113
-00:06:27,170 --> 00:06:30,972
-we'd love to talk about early access and volume-based pricing.
+00:06:15,597 --> 00:06:18,478
+and an Amazon Web Services Developer Ambassador.
 
 114
-00:06:31,421 --> 00:06:35,681
-Pricing, features, and agent availability are all subject to change before launch.
+00:06:18,928 --> 00:06:23,051
+After presenting at re:Invent in December 2025, he left to build full-time.
 
 115
-00:06:35,531 --> 00:06:39,700
-Until then, our team is heads-down, building the best possible experience for you.
+00:06:23,501 --> 00:06:27,381
+In 2026, the company pivoted to agent-orchestrated migrations,
 
 116
-00:06:40,150 --> 00:06:44,378
+00:06:27,231 --> 00:06:29,841
+completed the Launchpad Tech Ventures summer accelerator,
+
+117
+00:06:29,691 --> 00:06:33,437
+joined Launchpad Ignite, and rebranded from Vibe2Cloud to Rethrow.
+
+118
+00:06:35,236 --> 00:06:39,076
+Rethrow is targeting general availability at the start of 2027,
+
+119
+00:06:38,926 --> 00:06:41,064
+with early users onboarding before then.
+
+120
+00:06:41,514 --> 00:06:44,934
+If you're a software reseller, startup community, or development agency,
+
+121
+00:06:44,784 --> 00:06:48,586
+we'd love to talk about early access and volume-based pricing.
+
+122
+00:06:49,035 --> 00:06:53,295
+Pricing, features, and agent availability are all subject to change before launch.
+
+123
+00:06:53,145 --> 00:06:57,314
+Until then, our team is heads-down, building the best possible experience for you.
+
+124
+00:06:57,764 --> 00:07:01,992
 Build fast, and own what comes next. Join the waitlist at rethrow.ai.

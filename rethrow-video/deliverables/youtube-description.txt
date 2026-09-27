@@ -24,12 +24,12 @@ Chapters:
 2:28 Migrate an existing app
 3:00 One spec at a time
 3:19 Build in Rethrow Studio
-3:47 Multi-harness control plane
-4:33 Six guiding principles
-5:30 Multi-user, multi-app workspaces
-5:40 Who it's for
-5:51 Meet the founder
-6:16 Launch, pricing & waitlist
+4:05 Multi-harness control plane
+4:51 Six guiding principles
+5:47 Multi-user, multi-app workspaces
+5:58 Who it's for
+6:09 Meet the founder
+6:34 Launch, pricing & waitlist
 
 Statistics are approximate figures from industry surveys and analyses cited in Rethrow's "Introducing Rethrow" blog post. Third-party names and logos are trademarks of their respective owners and indicate compatibility, not endorsement.
 
