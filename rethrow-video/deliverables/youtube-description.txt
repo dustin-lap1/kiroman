@@ -15,21 +15,21 @@ Software resellers, startup communities, and development agencies: ask us about 
 
 Chapters:
 0:00 What is vibe coding?
-0:25 The rise of vibe coding
-0:59 The vibe coding cliff
-1:21 Beyond the demo
-1:55 Three paths to production
-2:16 Why the name Rethrow?
-2:42 Rethrow bridges the gap
-2:57 Migrate an existing app
-3:34 One spec at a time
-3:56 Build in Rethrow Studio
-4:27 Multi-harness control plane
-5:24 Six guiding principles
-6:31 Multi-user, multi-app workspaces
-6:43 Who it's for
-6:56 Meet the founder
-7:25 Launch, pricing & waitlist
+0:22 The rise of vibe coding
+0:51 The vibe coding cliff
+1:10 Beyond the demo
+1:38 Three paths to production
+1:53 Why the name Rethrow?
+2:16 Rethrow bridges the gap
+2:28 Migrate an existing app
+3:00 One spec at a time
+3:19 Build in Rethrow Studio
+3:47 Multi-harness control plane
+4:33 Six guiding principles
+5:30 Multi-user, multi-app workspaces
+5:40 Who it's for
+5:51 Meet the founder
+6:16 Launch, pricing & waitlist
 
 Statistics are approximate figures from industry surveys and analyses cited in Rethrow's "Introducing Rethrow" blog post. Third-party names and logos are trademarks of their respective owners and indicate compatibility, not endorsement.
 
