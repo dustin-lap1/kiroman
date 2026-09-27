@@ -223,12 +223,19 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-
 <section class="scene" id="s-studio">
   <div id="st-head" class="abs" style="left:110px;top:70px;display:flex;align-items:center;gap:24px">
     <span class="pill ghost" style="letter-spacing:4px">BUILD</span><span class="h3" style="font-size:44px">Rethrow Studio</span>
-    <span id="st-price" class="pill blue" style="margin-left:14px">from $100/mo</span></div>
+    <span id="st-price" class="pill blue" style="margin-left:14px">$50 / user / month</span></div>
   <div id="st-shot" class="abs win" style="left:160px;top:170px;width:1600px">
     <div class="winbar"><div class="dot" style="background:#F87171"></div><div class="dot" style="background:#FBBF24"></div><div class="dot" style="background:#34D399"></div><span style="margin-left:10px">rethrow.ai · studio</span></div>
     <div style="position:relative;height:836px;overflow:hidden"><img src="assets/frontend-rethrow-studio.png" style="width:1600px;display:block"><div id="st-hl" class="hl"></div></div>
   </div>
   <div id="st-cap" class="abs pill blue" style="left:0;top:960px;font-size:30px;padding:16px 34px"></div>
+  <div id="st-conn" class="abs card" style="left:460px;top:215px;width:1000px;padding:40px 48px;opacity:0;box-shadow:0 0 90px rgba(37,99,255,.35)">
+    <div class="eyebrow" style="font-size:18px;color:#9FB4EC;letter-spacing:6px">Studio · Settings</div>
+    <div class="h3" style="font-size:40px;margin-top:10px">Connect your coding agents</div>
+    <div style="font-size:22px;color:var(--slate);margin-top:8px">Use the agent subscriptions you already pay for.</div>
+    <div id="st-rows" style="margin-top:28px;display:flex;flex-direction:column;gap:14px"></div>
+    <div id="st-uses" style="margin-top:28px;display:flex;gap:14px;justify-content:center"></div>
+  </div>
 </section>
 
 <!-- 8 HARNESS -->
@@ -328,7 +335,7 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-
   <div id="c-partner" class="center" style="top:375px"><span class="pill ghost" style="font-size:24px;border-color:rgba(168,85,247,.7);background:rgba(168,85,247,.12)">Resellers · Startup communities · Agencies: early access &amp; volume-based pricing</span></div>
   <div id="c-price" class="abs" style="left:310px;top:455px;width:1300px;display:flex;justify-content:space-between">
     <div class="card pcard"><div class="pv">$500</div><div class="pl">one-time migration</div></div>
-    <div class="card pcard"><div class="pv">$100</div><div class="pl">per user / month · Studio</div></div>
+    <div class="card pcard"><div class="pv">$50</div><div class="pl">per user / month · Studio</div></div>
     <div class="card pcard"><div class="pv" style="font-size:44px;line-height:1.3">BYOA</div><div class="pl">bring your own agent</div></div></div>
   <div id="c-note" class="abs card" style="left:360px;top:640px;width:1200px;padding:24px 40px;text-align:center;font-size:24px;line-height:1.5;color:#C4CFE4">
     Pricing, features, and agent availability are subject to change before launch in early 2027. Until then, our development team is heads-down building the best experience for future customers.</div>
@@ -357,6 +364,9 @@ function mk(sc){const L=i=>sc.lead+sc.lines[i].t;const D=i=>sc.lines[i].d;
 // ---- build dynamic DOM
 const steps=[["Connect","Install a GitHub App on your repo"],["Assess","Agents propose a cloud architecture"],["Plan","Spec-driven migration plan"],["Migrate","Provision, refactor, deploy"],["Launch","Validate, cut over, own it"]];
 $('m-steps').innerHTML=steps.map((s,i)=>`<div class="step card" id="ms${i}"><div class="num" id="mn${i}">0${i+1}</div><div><div style="font-weight:800;font-size:34px">${s[0]}</div><div style="font-size:22px;color:var(--slate);margin-top:4px">${s[1]}</div></div></div>`).join('');
+const conn=[["claude-dark-background","Claude Code","OAuth"],["codex-dark-background","Codex","API key"],["gemini-dark-background","Gemini CLI","API key"],["kiro-dark-background","Kiro","OAuth"]];
+$('st-rows').innerHTML=conn.map((c,i)=>`<div id="sr${i}" style="display:flex;align-items:center;gap:22px;padding:14px 22px;border-radius:16px;border:1.5px solid rgba(64,110,230,.35);background:rgba(10,18,40,.6)"><img src="assets/${c[0]}.png" style="width:52px;height:52px;object-fit:contain"><div style="font-weight:800;font-size:28px;flex:1">${c[1]}</div><span class="pill ghost" style="font-size:20px;padding:8px 18px">${c[2]}</span><span id="sk${i}" class="pill" style="font-size:20px;padding:8px 18px;min-width:170px;justify-content:center;border:1.5px solid rgba(148,163,184,.4);color:#94A3B8">Connect</span></div>`).join('');
+$('st-uses').innerHTML=["Migrations","Development","Infrastructure ops"].map((u,i)=>`<span id="su${i}" class="pill blue" style="font-size:22px;padding:10px 22px;opacity:0">${u}</span>`).join('');
 const harn=[["claude-dark-background","Claude Code"],["codex-dark-background","Codex"],["51f743457_cursor-dark","Cursor"],["gemini-dark-background","Gemini CLI"],["factory-droid-dark-background","Factory Droid"],["goose-dark-background","Goose"],["kiro-dark-background","Kiro"]];
 $('h-harness').innerHTML=harn.map((h,i)=>`<div class="card logo-card" id="hh${i}" style="width:228px;height:170px;font-size:23px"><img src="assets/${h[0]}.png" style="width:74px;height:74px">${h[1]}</div>`).join('');
 const clouds=[["aws-dark-background","Amazon Web Services"],["azure-dark-background","Microsoft Azure"],["gcp-dark-background","Google Cloud Platform"],["7b0e35463_oracle-icon-red","Oracle Cloud Infrastructure"]];
@@ -433,7 +443,13 @@ R.loop=(lt,sc,{L,W})=>{
 };
 const HL=[[15,700,812,275],[855,65,1145,945],[1850,10,110,42],[565,918,202,50],[540,12,310,40],[1850,10,110,42]];// in 2000-wide space
 R.studio=(lt,sc,{L,W})=>{
-  show($('st-head'),lt,.1);show($('st-shot'),lt,.3,{y:60,s:.96});show($('st-price'),lt,L(4)-.1,{s:.6,y:0});
+  show($('st-head'),lt,.1);show($('st-shot'),lt,.3,{y:60,s:.96});show($('st-price'),lt,L(7)-.1,{s:.6,y:0});
+  // connect-your-agent panel (lines 4-6)
+  $('st-shot').style.opacity*=1-.75*P(lt,L(4)-.2,.5);show($('st-conn'),lt,L(4)-.1,{y:40,s:.96,max:1});
+  const on=(i,t)=>{const k=$('sk'+i),r=$('sr'+i),a=P(lt,t,.3);if(lt>=t){k.textContent='✓ Connected';k.style.background='rgba(52,211,153,.16)';k.style.borderColor='rgba(52,211,153,.8)';k.style.color='#6EE7B7'}else{k.textContent='Connect';k.style.background='';k.style.borderColor='rgba(148,163,184,.4)';k.style.color='#94A3B8'}
+    r.style.borderColor=`rgba(${lt>=t?'52,211,153':'64,110,230'},${.35+.4*a})`;r.style.boxShadow=`0 0 ${30*a}px rgba(52,211,153,${.25*a})`};
+  on(0,W(4,'OAuth')+.1);on(1,W(6,'multiple')-.1);on(2,W(6,'harnesses')+.1);on(3,W(6,'switch')-.1);
+  [0,1,2].forEach(i=>show($('su'+i),lt,L(5)+i*.45,{y:16,s:.9}));
   const k=1600/2000;const cues=[[W(2,'Prompt'),0,'Prompt'],[W(2,'preview'),1,'Preview & iterate'],[W(2,'publish'),2,'Publish'],[W(2,'while'),1,'Your cloud environment & repo'],[W(3,'Vibe'),3,'Vibe & Spec modes'],[W(3,'inspect'),4,'Inspect code & infrastructure'],[W(3,'ship'),5,'Fully managed pipeline']];
   let cur=null;for(const c of cues)if(lt>=c[0]-.1)cur=c;
   const hl=$('st-hl'),cap=$('st-cap');

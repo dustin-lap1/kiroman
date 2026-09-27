@@ -216,8 +216,20 @@
     ""
    ],
    [
-    "Studio will be $100 per user, per month.",
-    "Studio will be one hundred dollars per user, per month."
+    "Getting started will be simple. Connect your coding agent with an API key or OAuth, and Studio runs on the agent subscription you already have.",
+    "Getting started will be simple. Connect your coding agent with an A.P.I. key or Oh-Auth, and Studio runs on the agent subscription you already have."
+   ],
+   [
+    "Migrations, development, and infrastructure operations, all from one interface.",
+    ""
+   ],
+   [
+    "Have more than one subscription? Bring multiple agent harnesses into the same workspace, and switch between them as you work.",
+    ""
+   ],
+   [
+    "Studio will be $50 per user, per month.",
+    "Studio will be fifty dollars per user, per month."
    ]
   ]
  },

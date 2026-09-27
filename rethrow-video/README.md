@@ -22,6 +22,7 @@ Each scene is an HTML/CSS animation (`index.html`) whose state is a pure functio
 ```bash
 # 1. voice lines -> v3/lines/<scene>_<nn>.flac   (see "Re-voicing with ElevenLabs")
 python3 v3/timeline.py                       # durations -> v3/timeline.js
+python3 v3/retime_deliverables.py            # re-time captions (.srt) + chapter stamps
 python3 v3/music.py                          # music + voice mix
 ffmpeg -i v3/mix_raw.wav -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 v3/mix_norm.wav
 T=$(python3 -c "import re;print(re.search(r'\"total\": ([0-9.]+)',open('v3/timeline.js').read()).group(1))")

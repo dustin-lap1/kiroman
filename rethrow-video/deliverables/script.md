@@ -40,7 +40,7 @@ Behind the scenes, agents work one spec at a time. Each spec is a single, logica
 
 ## 3:19 · Build in Rethrow Studio
 
-To build, there's Rethrow Studio. Keep developing after a migration, or start something completely new, in a browser interface that feels like the vibe coding you know. Prompt, preview, iterate, and publish, while your app runs in a dedicated cloud environment and source repository you control. Switch between Vibe and Spec modes, inspect your code and your cloud, and ship through a fully managed deployment pipeline. Studio will be $100 per user, per month.
+To build, there's Rethrow Studio. Keep developing after a migration, or start something completely new, in a browser interface that feels like the vibe coding you know. Prompt, preview, iterate, and publish, while your app runs in a dedicated cloud environment and source repository you control. Switch between Vibe and Spec modes, inspect your code and your cloud, and ship through a fully managed deployment pipeline. Getting started will be simple. Connect your coding agent with an API key or OAuth, and Studio runs on the agent subscription you already have. Migrations, development, and infrastructure operations, all from one interface. Have more than one subscription? Bring multiple agent harnesses into the same workspace, and switch between them as you work. Studio will be $50 per user, per month.
 
 ## 3:47 · Multi-harness control plane
 
