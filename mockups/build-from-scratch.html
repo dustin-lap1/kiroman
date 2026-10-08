@@ -1,0 +1,141 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;width:1600px;height:900px;display:flex;background:#f4f6fa;color:#111827;overflow:hidden}
+.side{width:236px;background:#1c1d21;color:#e5e7eb;display:flex;flex-direction:column}
+.logo{display:flex;align-items:center;gap:10px;padding:20px 18px;font-size:24px;font-weight:700;color:#fff;border-bottom:1px solid #2a2b30}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 18px;font-size:15px;color:#d1d5db;text-decoration:none}
+.nav a.on{background:#2a2b31;color:#fff;border-left:3px solid #3b82f6;padding-left:15px}
+.nav svg{width:18px;height:18px;stroke:#9ca3af;fill:none;stroke-width:1.8}
+.user{margin-top:auto;border-top:1px solid #2a2b30;padding:16px 18px;display:flex;gap:10px;align-items:center}
+.av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6b8e23,#3f5f2a)}
+.user b{font-size:14px;font-weight:500;display:block}.user span{font-size:12px;color:#9ca3af}
+main{flex:1;padding:22px 28px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:flex-start}
+.back{font-size:14px;color:#4b5563}
+.app{text-align:right}.app small{font-size:11px;letter-spacing:.08em;color:#6b7280}.app div{font-size:20px;font-weight:600}
+.hero{background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;position:relative;height:170px}
+.hero svg.scene{position:absolute;inset:0}
+.hero .from,.hero .to{position:absolute;top:58px;font-size:11px;letter-spacing:.08em;color:#6b7280}
+.hero .from{left:22px}.hero .to{right:22px;text-align:right}
+.hero .from b,.hero .to b{display:block;font-size:16px;letter-spacing:0;color:#111827;margin-top:6px;font-weight:600}
+.hero .to span{display:block;font-size:11px;letter-spacing:0;margin-top:3px}
+.steps{position:absolute;top:22px;left:250px;right:250px;display:flex;justify-content:space-between}
+.st{text-align:center;font-size:12px;color:#9ca3af;width:90px}
+.dot{width:26px;height:26px;border-radius:50%;margin:0 auto 6px;background:#f3d6d3;border:2px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px #f1c7c2}
+.st.done .dot{background:#2563eb;box-shadow:none}.st.cur .dot{background:#fff;box-shadow:0 0 0 2px #2563eb}
+.st.done,.st.cur{color:#111827;font-weight:600}
+.banner{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.82);backdrop-filter:blur(6px);border-radius:12px;padding:10px 26px;text-align:center}
+.banner b{font-size:17px}.banner p{font-size:12.5px;color:#4b5563;margin-top:2px}
+.grid{display:grid;grid-template-columns:1fr 380px;gap:18px;flex:1;min-height:0}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:20px 22px}
+h3{font-size:15px;font-weight:600;margin-bottom:4px}.sub{font-size:12.5px;color:#6b7280;margin-bottom:14px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{border:1px solid #e5e7eb;border-radius:12px;padding:14px;position:relative;background:#fff}
+.tile.sel{border:2px solid #2563eb;padding:13px;background:#f5f8ff}
+.tile .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.tile .ic svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2}
+.tile b{font-size:14px;font-weight:600;display:block}
+.tile p{font-size:12px;color:#6b7280;margin-top:4px;line-height:1.4}
+.tag{position:absolute;top:12px;right:12px;font-size:10.5px;font-weight:600;padding:3px 7px;border-radius:999px}
+.chk{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center}
+.stack{display:flex;gap:5px;margin-top:9px;flex-wrap:wrap}.stack span{font-size:10.5px;background:#f3f4f6;color:#4b5563;padding:2px 6px;border-radius:5px}
+.prompt{margin-top:14px;border:1px dashed #cbd5e1;border-radius:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#6b7280}
+.prompt .btns{display:flex;gap:8px}.prompt .btns span{white-space:nowrap;border:1px solid #e5e7eb;border-radius:8px;padding:5px 10px;font-size:12px;color:#374151;background:#fff}
+.sum .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f2f4;font-size:13px}
+.sum .row span:first-child{color:#6b7280}
+.sum .row .v{font-weight:500;display:flex;align-items:center;gap:7px}
+.edit{font-size:11.5px;color:#2563eb;font-weight:500;margin-left:6px}
+.aws{background:#232f3e;color:#fff;font-size:9px;font-weight:700;border-radius:4px;padding:2px 4px}
+.cost{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin:14px 0 10px;display:flex;justify-content:space-between;align-items:center}
+.cost b{font-size:18px}.cost small{font-size:11.5px;color:#15803d;display:block}
+.inc{font-size:12px;color:#4b5563;line-height:1.75}.inc div::before{content:"✓ ";color:#16a34a;font-weight:700}
+.go{margin-top:14px;width:100%;background:#2563eb;color:#fff;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:600;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px rgba(37,99,235,.3)}
+.note{font-size:11px;color:#9ca3af;text-align:center;margin-top:8px}
+</style></head><body>
+<aside class="side">
+ <div class="logo"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M3 23C8 14 14 8 23 3" stroke="url(#g)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M23 3l-6 1 5 5z" fill="#c4b5fd"/><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#818cf8"/></linearGradient></defs></svg>Rethrow</div>
+ <nav class="nav" style="margin-top:10px">
+  <a><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Home</a>
+  <a class="on"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New workload</a>
+  <a><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</a>
+  <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 5-4 1 2-5z"/></svg>Guided Tour</a>
+ </nav>
+ <div class="user"><div class="av"></div><div><b>Dustin Ellis</b><span>Rethrow workspace</span></div></div>
+</aside>
+<main>
+ <div class="top"><div class="back">← Back to applications</div><div class="app"><small>NEW WORKLOAD</small><div>acme-invoice-processor ✎</div></div></div>
+
+ <div class="hero">
+  <svg class="scene" viewBox="0 0 1336 170" preserveAspectRatio="none">
+   <defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient>
+   <linearGradient id="l" x1="0" x2="1"><stop offset="0" stop-color="#ede4d8"/><stop offset="1" stop-color="#f7f2ea"/></linearGradient></defs>
+   <path d="M0 50H215L245 170H0Z" fill="url(#l)"/><path d="M1336 50H1121L1091 170H1336Z" fill="url(#l)"/>
+   <path d="M0 50H215" stroke="#22c55e" stroke-width="3"/><path d="M1121 50H1336" stroke="#22c55e" stroke-width="3"/>
+   <path d="M240 110Q668 95 1096 110L1100 170H236Z" fill="url(#w)"/>
+   <path d="M215 50H1121" stroke="#d13b2f" stroke-width="7"/>
+   <path d="M255 12Q460 52 668 15Q876 52 1081 12" stroke="#d13b2f" stroke-width="3" fill="none"/>
+   <rect x="250" y="8" width="9" height="45" fill="#b91c1c"/><rect x="664" y="10" width="9" height="43" fill="#b91c1c"/><rect x="1077" y="8" width="9" height="45" fill="#b91c1c"/>
+   <circle cx="420" cy="140" r="3" fill="#bfdbfe"/><circle cx="980" cy="132" r="2.5" fill="#bfdbfe"/>
+  </svg>
+  <div class="from">FROM<b>An idea</b></div>
+  <div class="to">TO<b>Cloud Infrastructure</b><span>AWS · us-east-1</span></div>
+  <div class="steps">
+   <div class="st cur"><div class="dot"><svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="#2563eb"/></svg></div>Choose<br><small style="font-weight:400;color:#9ca3af">1</small></div>
+   <div class="st"><div class="dot"></div>Provision<br><small>2</small></div>
+   <div class="st"><div class="dot"></div>Spec<br><small>3</small></div>
+   <div class="st"><div class="dot"></div>Build<br><small>4</small></div>
+   <div class="st"><div class="dot"></div>Launch<br><small>5</small></div>
+  </div>
+  <div class="banner"><b>Build from scratch</b><p>Pick a starting point. We'll provision the cloud account and repo, write the specs, and deploy it.</p></div>
+ </div>
+
+ <div class="grid">
+  <div class="card">
+   <h3>What do you want to build?</h3><div class="sub">Every template is a production-ready base with auth, CI/CD, logging and guardrails. You can change everything afterwards in Studio.</div>
+   <div class="tiles">
+    <div class="tile sel"><div class="chk"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" stroke="#fff" stroke-width="3" fill="none"/></svg></div>
+     <div class="ic" style="background:#7c3aed"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h6"/></svg></div>
+     <b>AI document processing</b><p>Upload, extract, validate and route invoices, forms and contracts, with a review queue for people.</p>
+     <div class="stack"><span>S3</span><span>Textract</span><span>Bedrock</span><span>Step Functions</span></div></div>
+    <div class="tile"><span class="tag" style="background:#ecfdf5;color:#047857">Popular</span>
+     <div class="ic" style="background:#635bff"><svg viewBox="0 0 24 24"><path d="M3 4h2l3 12h11l2-8H7"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></div>
+     <b>Stripe storefront</b><p>Product catalog, cart and Stripe Checkout, with an order dashboard.</p>
+     <div class="stack"><span>CloudFront</span><span>Lambda</span><span>DynamoDB</span><span>Stripe</span></div></div>
+    <div class="tile">
+     <div class="ic" style="background:#0ea5e9"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="12" cy="15" r="2"/></svg></div>
+     <b>Business website with login</b><p>Marketing pages, accounts and a members-only area.</p>
+     <div class="stack"><span>CloudFront</span><span>Cognito</span><span>S3</span></div></div>
+    <div class="tile">
+     <div class="ic" style="background:#f59e0b"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg></div>
+     <b>Internal tool</b><p>Admin dashboard with tables, forms and role-based access over your data.</p>
+     <div class="stack"><span>Cognito</span><span>API Gateway</span><span>Aurora</span></div></div>
+    <div class="tile"><span class="tag" style="background:#f5f3ff;color:#6d28d9">AI</span>
+     <div class="ic" style="background:#db2777"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></svg></div>
+     <b>AI assistant over your data</b><p>A chat assistant that answers from your documents, with citations.</p>
+     <div class="stack"><span>Bedrock</span><span>OpenSearch</span><span>Lambda</span></div></div>
+    <div class="tile">
+     <div class="ic" style="background:#10b981"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3 3 7 3s7-1.3 7-3"/></svg></div>
+     <b>API + database</b><p>A REST API with OpenAPI docs, auth, a database and migrations.</p>
+     <div class="stack"><span>API Gateway</span><span>Lambda</span><span>Aurora</span></div></div>
+   </div>
+   <div class="prompt"><span>✦ Optional: add details, e.g. “Sync extracted line items to QuickBooks”</span><div class="btns"><span>✎ Add prompt</span><span>⇪ Upload PRD / design</span><span>Describe it yourself</span></div></div>
+  </div>
+
+  <div class="card sum">
+   <h3>Ready to build</h3><div class="sub">Defaults are filled in. Change anything, or just build.</div>
+   <div class="row"><span>Workload name</span><span class="v">acme-invoice-processor<span class="edit">Edit</span></span></div>
+   <div class="row"><span>Template</span><span class="v">AI document processing</span></div>
+   <div class="row"><span>Cloud provider</span><span class="v"><span class="aws">aws</span>AWS<span class="edit">Change</span></span></div>
+   <div class="row"><span>Region</span><span class="v">US East (N. Virginia) us-east-1<span class="edit">Change</span></span></div>
+   <div class="row"><span>Repository</span><span class="v">rethrow-apps/acme-invoice-processor</span></div>
+   <div class="cost"><div><small>Estimated monthly cost at low volume</small><b>$18 – $42 / mo</b></div><span style="font-size:11.5px;color:#4b5563">Budget alert at $75</span></div>
+   <div class="inc"><div>Dedicated AWS account with CloudTrail and guardrails</div><div>GitHub repo, CI/CD and Terraform state</div><div>12 base specs, implemented and deployed</div><div>Live URL and architecture shown in Studio</div></div>
+   <button class="go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Build it</button>
+   <div class="note">About 8 minutes · 🔒 Cloud provider and region can't be changed after the build starts</div>
+  </div>
+ </div>
+</main>
+</body></html>
