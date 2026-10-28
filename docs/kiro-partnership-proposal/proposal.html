@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rethrow x Kiro Partnership Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #0B6B4F; --mint: #2ECC71; --sage: #A7E3C7; --sand: #F4EFE6;
+    --ink: #0F172A; --night: #021511; --forest900: #04281F; --emerald: #10B981; --mint050: #ECFAF2;
+    --muted: #475569;
+  }
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); font-size: 9.1pt; line-height: 1.4; background: #fff; }
+  .page { width: 8.5in; height: 11in; padding: 0.42in 0.6in 0.45in; position: relative; overflow: hidden; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  .page::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--forest), var(--mint)); }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 12px; border-bottom: 1px solid var(--sage); margin-bottom: 10px; }
+  header img { height: 30px; }
+  header .meta { text-align: right; font-size: 8pt; color: var(--muted); line-height: 1.4; }
+  header .meta b { color: var(--forest); font-weight: 700; }
+
+  .eyebrow { font-size: 7.6pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--forest); margin: 0 0 4px; }
+  h1 { font-weight: 800; font-size: 20pt; line-height: 1.1; margin: 0 0 6px; letter-spacing: -.01em; }
+  h1 span { color: var(--forest); }
+  .lead { font-size: 9.9pt; color: var(--forest900); margin: 0 0 12px; font-weight: 500; }
+  h2 { font-weight: 800; font-size: 11pt; margin: 11px 0 4px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  h2 .n { display: inline-flex; width: 19px; height: 19px; border-radius: 50%; background: var(--forest); color: #fff; font-size: 8pt; align-items: center; justify-content: center; flex: none; }
+  h3 { font-size: 9.8pt; font-weight: 700; margin: 0 0 3px; color: var(--forest); }
+  p { margin: 0 0 7px; }
+  ul { margin: 0 0 7px; padding-left: 15px; }
+  li { margin: 0 0 3px; }
+  b, strong { font-weight: 700; }
+
+  .ask { background: var(--sand); border-left: 4px solid var(--forest); border-radius: 6px; padding: 10px 14px; margin: 0 0 4px; }
+  .ask p:last-child { margin-bottom: 0; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { background: var(--mint050); border: 1px solid var(--sage); border-radius: 8px; padding: 8px 11px; }
+  .card ul { margin-bottom: 0; }
+  .card.dark { background: var(--forest900); border-color: var(--forest900); color: #E6F4EC; }
+  .card.dark h3 { color: var(--mint); }
+
+  /* stack diagram */
+  .stack { display: grid; grid-template-columns: 1fr 26px 1.25fr 26px 1fr; align-items: stretch; margin: 6px 0 4px; }
+  .layer { border-radius: 8px; padding: 8px 10px; font-size: 8.4pt; line-height: 1.35; }
+  .layer .t { font-weight: 800; font-size: 9.4pt; margin-bottom: 2px; }
+  .l1 { background: var(--sand); border: 1px solid #E4DCCB; }
+  .l2 { background: var(--forest); color: #fff; }
+  .l2 .t { color: var(--mint); }
+  .l3 { background: var(--mint050); border: 1px solid var(--sage); }
+  .arrow { display: flex; align-items: center; justify-content: center; color: var(--forest); font-weight: 800; font-size: 13pt; }
+  .caption { font-size: 7.8pt; color: var(--muted); margin: 0 0 6px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 8.7pt; margin: 2px 0 6px; }
+  th { text-align: left; font-weight: 700; color: #fff; background: var(--forest); padding: 5px 8px; }
+  th:first-child { border-top-left-radius: 6px; } th:last-child { border-top-right-radius: 6px; }
+  td { padding: 4px 8px; border-bottom: 1px solid var(--sage); vertical-align: top; }
+  tr:nth-child(even) td { background: #FBF9F5; }
+  td:first-child { font-weight: 700; color: var(--forest900); white-space: nowrap; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 2px; }
+  .stat { background: var(--sand); border-radius: 8px; padding: 6px 9px; }
+  .stat .v { font-weight: 800; font-size: 13pt; color: var(--forest); line-height: 1.1; }
+  .stat .l { font-size: 7.8pt; color: var(--muted); line-height: 1.3; }
+
+  .cta { background: var(--night); color: #E6F4EC; border-radius: 10px; padding: 12px 16px; margin-top: 10px; display: flex; gap: 18px; align-items: center; }
+  .cta h3 { color: var(--mint); font-size: 10.4pt; margin-bottom: 4px; }
+  .cta ol { margin: 0; padding-left: 16px; }
+  .cta li { margin-bottom: 2px; }
+  .cta img { height: 22px; flex: none; }
+
+  footer { position: absolute; left: 0.62in; right: 0.62in; bottom: 0.25in; display: flex; justify-content: space-between; font-size: 7.4pt; color: var(--muted); border-top: 1px solid var(--sage); padding-top: 5px; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="page">
+  <header>
+    <img src="assets/rethrow-horizontal-on-light-tight.png" alt="Rethrow">
+    <div class="meta"><b>Partnership Proposal</b><br>Prepared for the Kiro team<br>October 2026</div>
+  </header>
+
+  <p class="eyebrow">Rethrow x Kiro</p>
+  <h1>Helping builders cross the vibe coding cliff, <span>powered by Kiro</span></h1>
+  <p class="lead">Rethrow is a bring-your-own-agent (BYOA) platform that moves vibe-coded prototypes into a cloud account the builder owns, then lets them keep building in a friendly Studio with the coding agent of their choice. We are proposing that Kiro become our featured agent partner, starting with a holiday cohort in December and growing into a standing Kiro onboarding path at launch.</p>
+
+  <div class="ask">
+    <p><b>The ask, in one line:</b> provide complimentary Kiro credits to Rethrow builders who do not yet have a coding agent subscription, so their first experience of building on their own cloud is with Kiro. After the credits are used, they keep building in Rethrow with a paid Kiro subscription.</p>
+  </div>
+
+  <h2><span class="n">1</span>The vibe coding cliff</h2>
+  <p>Tools like Lovable, Base44, Replit, and Bolt have made it easy for founders and domain experts to get a working prototype in an afternoon. The trouble starts when that prototype meets the real world. Builders hit a cliff on <b>scale, security reviews, cost predictability, and ownership</b>: the app lives inside someone else's platform, runs on a credit meter, and cannot pass a customer's security questionnaire. The usual options: learn cloud engineering, hire a team, or stay stuck.</p>
+  <p>Our audience is mostly non-technical founders and builders who love the vibe coding experience but want more control over what runs underneath. Many are not comfortable jumping into an IDE or CLI. That is exactly the group a professional agent like Kiro has a hard time reaching today, and exactly the group Rethrow serves.</p>
+
+  <h2><span class="n">2</span>How Rethrow works</h2>
+  <p>Rather than building our own agent harness, gateway, and everything that comes with it, Rethrow sits between the coding agent and the cloud provider. The Studio is a familiar builder interface. Under the hood, we maintain the hard parts so the builder's agent can act like a cloud architect.</p>
+  <div class="stack">
+    <div class="layer l1"><div class="t">The builder</div>Describes a change in plain language, watches it happen, previews it live, and publishes.</div>
+    <div class="arrow">&rarr;</div>
+    <div class="layer l2"><div class="t">Rethrow Studio</div>Agent toolkits, CLIs, ACP adapters, MCP tools, cloud APIs, scoped least-privilege credentials, guardrails, approvals, and spec mode.</div>
+    <div class="arrow">&rarr;</div>
+    <div class="layer l3"><div class="t">Their agent + their cloud</div>Kiro (or another supported agent) does the work inside a dedicated cloud account the builder owns, starting with AWS.</div>
+  </div>
+  <p class="caption">Builders pay their agent and cloud providers directly. Rethrow charges a flat $100 per migration and $50 per app, per month, with no credits and no markup.</p>
+
+  <h2><span class="n">3</span>Why Kiro is the natural fit</h2>
+  <div class="cols">
+    <div class="card">
+      <h3>Shared way of working</h3>
+      <ul>
+        <li>Rethrow migrations and Studio spec mode already build one <b>spec</b> at a time (requirements, design, tasks), which mirrors Kiro's spec-driven development.</li>
+        <li>Steering, guardrails, and approval before destructive changes match how Kiro is designed to be used.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Shared destination</h3>
+      <ul>
+        <li>Our first cohort migrates every app into an <b>AWS account the builder owns</b>.</li>
+        <li>Kiro is already one of six supported agents in Rethrow, alongside Claude Code, Codex, Cursor, Droid, and Gemini. A partnership makes it the default for builders who have none.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer><span>Rethrow AI &middot; rethrow.ai</span><span>Confidential. Prepared for the Kiro team.</span><span>1 / 2</span></footer>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page">
+  <header>
+    <img src="assets/rethrow-horizontal-on-light-tight.png" alt="Rethrow">
+    <div class="meta"><b>Partnership Proposal</b><br>Rethrow x Kiro</div>
+  </header>
+
+  <h2 style="margin-top:0"><span class="n">4</span>Phase 1: Rethrow Season of Giving (December 14 to 18)</h2>
+  <p>In the next one to two weeks we will announce a holiday cohort to our waitlist of roughly 100 builders. Up to 20 builders get a free, hands-on week with the Rethrow team: we migrate their prototype from GitHub into an AWS account they own, then run daily group sessions on building in Studio, integrations, shipping features, rollbacks, architecture diagrams, and security scans. Each builder gets a free migration ($100) and 30 days of Studio ($50): $150 in value plus training.</p>
+  <p>Builders must bring a supported coding agent. With Kiro's support, the announcement would read:</p>
+  <div class="ask">
+    <p><i>"Rethrow is partnered with Kiro. If you don't have a coding agent subscription yet, you get [XX] Kiro credits free. When your credits run out, keep building in Rethrow with your own Kiro subscription."</i></p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">~100</div><div class="l">builders on the waitlist receiving the announcement</div></div>
+    <div class="stat"><div class="v">20</div><div class="l">cohort seats, each a live Kiro user for 5 intensive days</div></div>
+    <div class="stat"><div class="v">5</div><div class="l">startup communities confirmed as distribution partners in the Southeast</div></div>
+    <div class="stat"><div class="v">Jan</div><div class="l">general availability, with cohort case studies featured at launch</div></div>
+  </div>
+
+  <h2><span class="n">5</span>Phase 2 and beyond: Rethrow as a funnel for Kiro</h2>
+  <p>Rethrow opens a beta to the waitlist in December and reaches general availability in January. Distribution leans heavily on startup communities, where many founders arrive with a prototype but no agent subscription. In Q1, our focus is partnerships with coding agent and harness providers rather than building our own, so Rethrow stays extensible. For builders without an agent, the path becomes simple: <b>create a Kiro account, bring it into Rethrow, and keep building.</b></p>
+
+  <table>
+    <tr><th style="width:22%">Timing</th><th>Milestone</th><th style="width:34%">Kiro involvement</th></tr>
+    <tr><td>Early Nov</td><td>Season of Giving event page live; applications open</td><td>Kiro named as partner; credit offer in copy</td></tr>
+    <tr><td>Late Nov</td><td>Cohort selected and notified</td><td>Credit codes issued to builders without an agent</td></tr>
+    <tr><td>Dec 14 to 18</td><td>Cohort week: 20 apps migrated to AWS, daily sessions</td><td>Optional Kiro guest session on spec-driven building</td></tr>
+    <tr><td>Dec to Jan</td><td>Beta opens to the waitlist; general availability in January</td><td>"Get started with Kiro" onboarding step; joint case studies</td></tr>
+    <tr><td>Q1 2027</td><td>Agent and harness partnership program</td><td>Deeper integration (ACP adapter, toolkits), referral terms</td></tr>
+  </table>
+
+  <div class="cols">
+    <div class="card">
+      <h3>What Kiro gets</h3>
+      <ul>
+        <li>A new channel to non-technical founders who would not start in an IDE or CLI.</li>
+        <li>Conversion path from free credits to paid Kiro subscriptions, with usage tied to real apps.</li>
+        <li>Partner placement across our site, cohort, beta, and launch, plus joint case studies.</li>
+              </ul>
+    </div>
+    <div class="card dark">
+      <h3>What Rethrow provides</h3>
+      <ul>
+        <li>Integration upkeep: Kiro toolkits, CLI, ACP adapter, MCP tools, scoped credentials.</li>
+        <li>Shared reporting on credit redemption and conversion.</li>
+        <li>Kiro as the recommended agent for builders without one.</li>
+                <li>Co-marketing with our five startup community partners.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div>
+      <h3>Proposed next steps</h3>
+      <ol>
+        <li>A 30 minute call this week to align on the offer and the credit amount per builder.</li>
+        <li>Confirm partner naming and logo use for the event page, launching the first week of November.</li>
+        <li>Agree on a simple redemption and reporting process before cohort notifications.</li>
+      </ol>
+    </div>
+  </div>
+
+  <footer><span>Rethrow AI &middot; rethrow.ai</span><span>Confidential. Prepared for the Kiro team.</span><span>2 / 2</span></footer>
+</section>
+
+</body>
+</html>
